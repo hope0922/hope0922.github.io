@@ -3,8 +3,8 @@
 	<channel>
 		<title>“hope0922's Blog” - Articles</title>
 		<description>Everything about “hope0922.</description>
-		<link>http://“hope0922.github.io</link>
-		<atom:link href="http://“hope0922.github.io/feed.articles.xml" rel="self" type="application/rss+xml" />
+		<link>http://localhost:4000</link>
+		<atom:link href="http://localhost:4000/feed.articles.xml" rel="self" type="application/rss+xml" />
 		
 			
 			<item>
@@ -14,36 +14,8 @@
 </description>
 				
 				<pubDate>Mon, 29 Jan 2018 00:00:00 +0800</pubDate>
-				<link>http://“hope0922.github.io/test</link>
-				<guid isPermaLink="true">http://“hope0922.github.io/test</guid>
-			</item>
-			
-		
-			
-			<item>
-				<title>中国摇滚的落寞与喧嚣</title>
-				
-					<description>&lt;h2&gt;生于一无所有&lt;/h2&gt;
-</description>
-				
-				<pubDate>Tue, 03 Dec 2013 00:00:00 +0800</pubDate>
-				<link>http://“hope0922.github.io/chinese-rock-upndown</link>
-				<guid isPermaLink="true">http://“hope0922.github.io/chinese-rock-upndown</guid>
-			</item>
-			
-		
-			
-			<item>
-				<title>谈科学家的异化!!!!!</title>
-				
-					<description>&lt;h2&gt;一、  异化与我们的社会&lt;/h2&gt;
-
-&lt;p&gt;异化，意为“异己的”，“指某物通过自己的活动而与某种曾属于它的他物相分离，以致于这个他物成为自足的并与本来拥有它的某物相对立的一种状态。”&lt;/p&gt;
-</description>
-				
-				<pubDate>Mon, 02 Dec 2013 00:00:00 +0800</pubDate>
-				<link>http://“hope0922.github.io/scientists-alienation</link>
-				<guid isPermaLink="true">http://“hope0922.github.io/scientists-alienation</guid>
+				<link>http://localhost:4000/test</link>
+				<guid isPermaLink="true">http://localhost:4000/test</guid>
 			</item>
 			
 		
