@@ -21,7 +21,7 @@
 
     <div class="home-menu">
         <div class="home-icon-con">
-            <a class="home-menu-icon" href="/">Mukosame</a>
+            <a class="home-menu-icon" href="/">Hope0922</a>
             <a class="home-follow" href="#" title="Contact Me">+</a>
         </div>
         <div class="home-contact">
@@ -35,8 +35,6 @@
     <div class="section">
         <ul class="artical-cate">
             <li class="on"><a href="/"><span>Blog</span></a></li>
-            <li style="text-align:center"><a href="/dump"><span>Dump</span></a></li>
-            <li style="text-align:right"><a href="/project"><span>Project</span></a></li>
         </ul>
 
         <div class="cate-bar"><span id="cateBar"></span></div>
@@ -58,6 +56,15 @@
 
 <script type="text/javascript">
     $(function(){
+        $('.home-follow').click(function(e){
+            e.preventDefault();
+
+            if($('.home-contact').is(':visible')){
+                $('.home-contact').slideUp(100);
+            }else{
+                $('.home-contact').slideDown(100);
+            }
+        });
         function animateBar($item,noAni){
             var spanLeft = $item.find('span').offset().left;
             var conLeft = $item.parent().offset().left;
@@ -98,20 +105,5 @@
         animateBar($('.artical-cate .on'),true);
     });
 </script>
-
-
-    <script type="text/javascript">
-        $(function(){
-            $('.home-follow').click(function(e){
-                e.preventDefault();
-
-                if($('.home-contact').is(':visible')){
-                    $('.home-contact').slideUp(100);
-                }else{
-                    $('.home-contact').slideDown(100);
-                }
-            });
-        })
-    </script>
 </body>
 </html>
