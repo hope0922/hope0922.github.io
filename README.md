@@ -1,32 +1,10 @@
-# Adam Blog is a minimal clear theme for Jekyll
+#一点点说明
 
-![Adam Blog - Imac](https://github.com/artemsheludko/adam-blog/blob/master/assets/img/adam-blog-imac.jpg?raw=true)
+这是[BeiYuu.com](http://beiyuu.com)的示例代码，如果你看了[使用Github Pages建独立博客](http://beiyuu.com/github-pages)，希望看下去哦：
 
-## Demo
-
-Check the theme in action [Demo](https://artemsheludko.github.io/adam-blog/)
-
-The main page would look like this:
-
-![Main page preview](https://github.com/artemsheludko/adam-blog/blob/master/assets/img/adam-home-page.jpg?raw=true)
-
-The post page would look like this:
-
-![Post page preview](https://github.com/artemsheludko/adam-blog/blob/master/assets/img/adam-post-example.jpg?raw=true)
-
-## Features
-
-- [Google Fonts](https://fonts.google.com/)
-- [Font Awesome](http://fontawesome.io/)
-- [Disqus](https://disqus.com/)
-- [MailChimp](https://mailchimp.com/)
-- [Analytics](https://analytics.google.com/analytics/web/)
-- [Search](https://github.com/christian-fei/Simple-Jekyll-Search)
-
-## Installation:
-
-Fork the ``master`` branch and delete ``gh-pages`` branch in it. This is important because ``gh-pages`` branch is used here only to host the blog. You should be using the master branch as the source and create a fresh ``gh-pages`` branch.
-
-### License
-
-GNU General Public License v3.0
+* 马上动手，很赞
+* 感谢认可
+* 推荐阅读：[我为什么写博客？](http://beiyuu.com/why-blog)
+* 想复用我的设计，没问题，标个出处就好啦
+* 转载也没问题，标个出处呗少年
+* 恩，认真的童鞋最可爱啦~
