@@ -1,6 +1,6 @@
 ---
 layout:     post
-title:      谈科学家的异化
+title:      谈科学家的异化!!!!!
 category: blog
 description: 马克思主义观点看科学家的异化。
 ---
