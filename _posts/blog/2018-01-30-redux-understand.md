@@ -5,10 +5,6 @@ category: blog
 description: 知乎redux解析，简单易懂
 ---
 #Redux通俗易懂的理解
-作者：Wang Namelos
-链接：https://www.zhihu.com/question/41312576/answer/90782136
-来源：知乎
-著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
 
 ###解答这个问题并不困难：唯一的要求是你熟悉React。不要光听别人描述名词，理解起来是很困难的。从需求出发，看看使用React需要什么：
 1. React有props和state: props意味着父级分发下来的属性，state意味着组件内部可以自行管理的状态，并且整个React没有数据向上回溯的能力，也就是说数据只能单向向下分发，或者自行内部消化。理解这个是理解React和Redux的前提。
