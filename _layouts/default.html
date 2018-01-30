@@ -36,11 +36,11 @@
         $(function(){
             $('.home-follow').click(function(e){
                 e.preventDefault();
-
-                if($('.home-contact').is(':visible')){
-                    $('.home-contact').slideUp(100);
+                var  contactTxt = $('.home-contact');
+                if(contactTxt.is(':visible')){
+                    contactTxt.slideUp(100);
                 }else{
-                    $('.home-contact').slideDown(100);
+                    contactTxt.slideDown(100);
                 }
             });
         })
