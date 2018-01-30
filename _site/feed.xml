@@ -3,8 +3,26 @@
 	<channel>
 		<title>“hope0922's Blog” - Articles</title>
 		<description>Everything about “hope0922.</description>
-		<link>http://localhost:4000</link>
-		<atom:link href="http://localhost:4000/feed.articles.xml" rel="self" type="application/rss+xml" />
+		<link>http://“hope0922.github.io</link>
+		<atom:link href="http://“hope0922.github.io/feed.articles.xml" rel="self" type="application/rss+xml" />
+		
+			
+			<item>
+				<title>Redux通俗易懂的理解</title>
+				
+					<description>&lt;h1&gt;Redux通俗易懂的理解&lt;/h1&gt;
+
+&lt;p&gt;作者：Wang Namelos
+链接：https://www.zhihu.com/question/41312576/answer/90782136
+来源：知乎
+著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。&lt;/p&gt;
+</description>
+				
+				<pubDate>Tue, 30 Jan 2018 00:00:00 +0800</pubDate>
+				<link>http://“hope0922.github.io/redux-understand</link>
+				<guid isPermaLink="true">http://“hope0922.github.io/redux-understand</guid>
+			</item>
+			
 		
 			
 			<item>
@@ -14,8 +32,8 @@
 </description>
 				
 				<pubDate>Mon, 29 Jan 2018 00:00:00 +0800</pubDate>
-				<link>http://localhost:4000/test</link>
-				<guid isPermaLink="true">http://localhost:4000/test</guid>
+				<link>http://“hope0922.github.io/test</link>
+				<guid isPermaLink="true">http://“hope0922.github.io/test</guid>
 			</item>
 			
 		
