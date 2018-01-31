@@ -3,8 +3,25 @@
 	<channel>
 		<title>hope0922's Blog - Articles</title>
 		<description>Everything about hope0922.</description>
-		<link>http://hope0922.github.io</link>
-		<atom:link href="http://hope0922.github.io/feed.articles.xml" rel="self" type="application/rss+xml" />
+		<link>http://localhost:4000</link>
+		<atom:link href="http://localhost:4000/feed.articles.xml" rel="self" type="application/rss+xml" />
+		
+			
+			<item>
+				<title>这是我的简历~</title>
+				
+					<description>&lt;p&gt;&lt;img src=&quot;mahua-logo.jpg&quot; alt=&quot;mahua&quot; /&gt;&lt;/p&gt;
+
+&lt;h1&gt;我是谁?&lt;/h1&gt;
+
+&lt;h3&gt;我是谢添峰&lt;/h3&gt;
+</description>
+				
+				<pubDate>Tue, 30 Jan 2018 00:00:00 +0800</pubDate>
+				<link>http://localhost:4000/my-resume</link>
+				<guid isPermaLink="true">http://localhost:4000/my-resume</guid>
+			</item>
+			
 		
 			
 			<item>
@@ -14,8 +31,8 @@
 </description>
 				
 				<pubDate>Tue, 30 Jan 2018 00:00:00 +0800</pubDate>
-				<link>http://hope0922.github.io/redux-understand</link>
-				<guid isPermaLink="true">http://hope0922.github.io/redux-understand</guid>
+				<link>http://localhost:4000/redux-understand</link>
+				<guid isPermaLink="true">http://localhost:4000/redux-understand</guid>
 			</item>
 			
 		
@@ -27,8 +44,8 @@
 </description>
 				
 				<pubDate>Tue, 30 Jan 2018 00:00:00 +0800</pubDate>
-				<link>http://hope0922.github.io/jquery-plugin</link>
-				<guid isPermaLink="true">http://hope0922.github.io/jquery-plugin</guid>
+				<link>http://localhost:4000/jquery-plugin</link>
+				<guid isPermaLink="true">http://localhost:4000/jquery-plugin</guid>
 			</item>
 			
 		
@@ -40,8 +57,8 @@
 </description>
 				
 				<pubDate>Tue, 30 Jan 2018 00:00:00 +0800</pubDate>
-				<link>http://hope0922.github.io/iframe-orgin</link>
-				<guid isPermaLink="true">http://hope0922.github.io/iframe-orgin</guid>
+				<link>http://localhost:4000/iframe-orgin</link>
+				<guid isPermaLink="true">http://localhost:4000/iframe-orgin</guid>
 			</item>
 			
 		
