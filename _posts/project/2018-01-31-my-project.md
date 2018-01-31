@@ -18,4 +18,4 @@ description: ''
 前期修改旧版本bug及性能优化。17年全网站重构，主要用jquery框架，完成整个网站并上线。让我懂得了正规开发的流程，规范了自己的代码，熟练Git操作。
 `个人简历网站`  
 *2016.10 - 2016.11*
-用fullpage插件和jquery写的自己的简历网站www.homeme.cc, 第一次开发了自己的网站。
+用fullpage插件和jquery写的自己的简历网站www.hopeme.cc, 第一次开发了自己的网站。
