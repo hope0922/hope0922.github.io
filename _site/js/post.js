@@ -23,14 +23,13 @@ $(document).ready(function(){
 
     $('pre').addClass('prettyprint linenums'); //添加Google code Hight需要的class
 
-//**评论的代码也删掉哦***
 
 
     $('.entry a').each(function(index,element){
         var href = $(this).attr('href');
         if(href){
             if(href.indexOf('#') == 0){
-            }else if ( href.indexOf('/') == 0 || href.toLowerCase().indexOf('mukosame.github.io')>-1 ){
+            }else if ( href.indexOf('/') == 0 || href.toLowerCase().indexOf('hope0922.github.io')>-1 ){
             }else if ($(element).has('img').length){
             }else{
                 $(this).attr('target','_blank');
