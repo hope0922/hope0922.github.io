@@ -5,15 +5,15 @@ category: blog
 description: iframe跨域传输数据（一）；子页面访问主框架DOM元素；  
 ---
 
-##iframe跨域传输数据（一）；子页面访问主框架DOM元素；  
+## iframe跨域传输数据（一）；子页面访问主框架DOM元素；  
 
 如果使用同域的方法，浏览器判断A.html 与 B.html 不同域，会有错误提示。 
 Uncaught SecurityError: Blocked a frame with origin “http://localhost” from accessing a frame with origin “http://127.0.0.0“. Protocols, domains, and ports must match.
 
-####实现原理： 
+#### 实现原理： 
 因为浏览器为了安全，禁止了不同域访问。因此只要调用与执行的双方是同域则可以相互访问。 
 不同方式的解决方法如下：
-###解决方法一：
+### 解决方法一：
 ```javascript
 同域下：
 使用 window.top或者window.parent.parent获取浏览器最顶层window对象的引用。
@@ -21,7 +21,7 @@ Uncaught SecurityError: Blocked a frame with origin “http://localhost” from 
 可以使用：window.parent.parent.document最顶层元素的DOM对象
 window.parent.parent.document.getElementsByTagName("html")来获取父页面的HTML元素。
 ```  
-###解决方法二：
+### 解决方法二：
 ```javascript
 不同域名下：
 iframe在跨域访问的时候会有严格的要求，比ajax跨域请求还要难解决
@@ -39,14 +39,14 @@ www.abcd.com:8080 (host)
 
 document.domain ="" 方法只能解决，二级域相同，使用domain方法降域可以实现，如果完全不相同的域，此方法无效
 ```
-###解决方法三：
+### 解决方法三：
 完全跨域。一级域和二级域都不相同时，想要传输数据或获取父页面的DOM元素有两种方法，
 
 是使用jsonp方式，用ajax将值传输到父页面的后台服务中，缺点是需要后台服务支持。每次都要调用服 务器中的接口
 
 a.com下的a.html，需要嵌入b.com下的b.html。这时建一个静态页面c.html将c.html放到a.com服务器中。b.html在嵌入c.html.这样，将参数值传输到c.html中，c.html就可以使用window.parent.parent访问a.html所在的顶层window对象，就可以操作父页面的DOM元素。 
 例如： 
-#####a.html:(所在域：22.22.22.22:2222)
+##### a.html:(所在域：22.22.22.22:2222)
 
 ```html
 <html>
@@ -57,7 +57,7 @@ a.com下的a.html，需要嵌入b.com下的b.html。这时建一个静态页面c
 </html> 
 ```
 
-#####b.html:(所在域：11.11.11.11)  
+##### b.html:(所在域：11.11.11.11)  
 
 ```html
 <html>
@@ -71,7 +71,7 @@ a.com下的a.html，需要嵌入b.com下的b.html。这时建一个静态页面c
 </html>
 ```  
 
-####c.html
+#### c.html
 
 ```html
 <html>
