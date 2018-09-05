@@ -3,8 +3,56 @@
 	<channel>
 		<title>hope0922's Blog - Articles</title>
 		<description>Everything about hope0922.</description>
-		<link>http://hope0922.github.io</link>
-		<atom:link href="http://hope0922.github.io/feed.articles.xml" rel="self" type="application/rss+xml" />
+		<link>http://localhost:4000</link>
+		<atom:link href="http://localhost:4000/feed.articles.xml" rel="self" type="application/rss+xml" />
+		
+			
+			<item>
+				<title>webpack配置入门</title>
+				
+					<description>&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://www.jianshu.com/p/42e11515c10f#&quot;&gt;webpack配置入门&lt;/a&gt;;&lt;/li&gt;
+&lt;/ul&gt;
+
+</description>
+				
+				<pubDate>Wed, 05 Sep 2018 00:00:00 +0800</pubDate>
+				<link>http://localhost:4000/webpack</link>
+				<guid isPermaLink="true">http://localhost:4000/webpack</guid>
+			</item>
+			
+		
+			
+			<item>
+				<title>reactjs常用技巧</title>
+				
+					<description>&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://www.cnblogs.com/minghui007/p/8177775.html&quot;&gt;reactjs常用技巧&lt;/a&gt;;&lt;/li&gt;
+&lt;/ul&gt;
+
+</description>
+				
+				<pubDate>Wed, 05 Sep 2018 00:00:00 +0800</pubDate>
+				<link>http://localhost:4000/react-skills</link>
+				<guid isPermaLink="true">http://localhost:4000/react-skills</guid>
+			</item>
+			
+		
+			
+			<item>
+				<title>reactjs常用组件沟通</title>
+				
+					<description>&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;http://www.alloyteam.com/2016/01/some-methods-of-reactjs-communication-between-components&quot;&gt;reactjs常用组件沟通&lt;/a&gt;;&lt;/li&gt;
+&lt;/ul&gt;
+
+</description>
+				
+				<pubDate>Wed, 05 Sep 2018 00:00:00 +0800</pubDate>
+				<link>http://localhost:4000/react-communicate</link>
+				<guid isPermaLink="true">http://localhost:4000/react-communicate</guid>
+			</item>
+			
 		
 			
 			<item>
@@ -17,8 +65,24 @@
 </description>
 				
 				<pubDate>Tue, 06 Feb 2018 00:00:00 +0800</pubDate>
-				<link>http://hope0922.github.io/react-shouldComponentUpdate</link>
-				<guid isPermaLink="true">http://hope0922.github.io/react-shouldComponentUpdate</guid>
+				<link>http://localhost:4000/react-shouldComponentUpdate</link>
+				<guid isPermaLink="true">http://localhost:4000/react-shouldComponentUpdate</guid>
+			</item>
+			
+		
+			
+			<item>
+				<title>reactjs性能优化之shouldComponentUpdate</title>
+				
+					<description>&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;http://blog.csdn.net/jjx0224/article/details/49869597&quot;&gt;reactjs性能优化之shouldComponentUpdate&lt;/a&gt;;&lt;/li&gt;
+&lt;/ul&gt;
+
+</description>
+				
+				<pubDate>Tue, 06 Feb 2018 00:00:00 +0800</pubDate>
+				<link>http://localhost:4000/react-shouldComponentUpdate-%E5%89%AF%E6%9C%AC</link>
+				<guid isPermaLink="true">http://localhost:4000/react-shouldComponentUpdate-%E5%89%AF%E6%9C%AC</guid>
 			</item>
 			
 		
@@ -31,21 +95,12 @@
 &lt;p&gt;&lt;code&gt;个人博客&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;2018.01 - 至今&lt;/em&gt;&lt;br/&gt;
 在github上用jkeyll框架搭了一个简单博客记录自己日常的工作学习，以便于总结学习。并将自己的简历简单迁到了github的博客上。
-地址: hope0922.github.io&lt;br/&gt;
-&lt;code&gt;汇教网络课堂App&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;2017.11 - 至今&lt;/em&gt;&lt;br/&gt;
-用react native redux 开发汇教网络课堂App&lt;br/&gt;
-&lt;code&gt;汇教网络课堂Web端&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;2016.11 - 至今&lt;/em&gt;
-前期修改旧版本bug及性能优化。17年全网站重构，主要用jquery框架，完成整个网站并上线。让我懂得了正规开发的流程，规范了自己的代码，熟练Git操作。
-&lt;code&gt;个人简历网站&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;2016.10 - 2016.11&lt;/em&gt;
-用fullpage插件和jquery写的自己的简历网站www.hopeme.cc, 第一次开发了自己的网站。&lt;/p&gt;
+地址: hope0922.github.io&lt;/p&gt;
 </description>
 				
 				<pubDate>Wed, 31 Jan 2018 00:00:00 +0800</pubDate>
-				<link>http://hope0922.github.io/my-project</link>
-				<guid isPermaLink="true">http://hope0922.github.io/my-project</guid>
+				<link>http://localhost:4000/my-project</link>
+				<guid isPermaLink="true">http://localhost:4000/my-project</guid>
 			</item>
 			
 		
@@ -57,8 +112,8 @@
 </description>
 				
 				<pubDate>Tue, 30 Jan 2018 00:00:00 +0800</pubDate>
-				<link>http://hope0922.github.io/my-resume</link>
-				<guid isPermaLink="true">http://hope0922.github.io/my-resume</guid>
+				<link>http://localhost:4000/my-resume</link>
+				<guid isPermaLink="true">http://localhost:4000/my-resume</guid>
 			</item>
 			
 		
@@ -70,8 +125,8 @@
 </description>
 				
 				<pubDate>Tue, 30 Jan 2018 00:00:00 +0800</pubDate>
-				<link>http://hope0922.github.io/redux-understand</link>
-				<guid isPermaLink="true">http://hope0922.github.io/redux-understand</guid>
+				<link>http://localhost:4000/redux-understand</link>
+				<guid isPermaLink="true">http://localhost:4000/redux-understand</guid>
 			</item>
 			
 		
@@ -83,8 +138,8 @@
 </description>
 				
 				<pubDate>Tue, 30 Jan 2018 00:00:00 +0800</pubDate>
-				<link>http://hope0922.github.io/jquery-plugin</link>
-				<guid isPermaLink="true">http://hope0922.github.io/jquery-plugin</guid>
+				<link>http://localhost:4000/jquery-plugin</link>
+				<guid isPermaLink="true">http://localhost:4000/jquery-plugin</guid>
 			</item>
 			
 		
@@ -96,8 +151,8 @@
 </description>
 				
 				<pubDate>Tue, 30 Jan 2018 00:00:00 +0800</pubDate>
-				<link>http://hope0922.github.io/iframe-orgin</link>
-				<guid isPermaLink="true">http://hope0922.github.io/iframe-orgin</guid>
+				<link>http://localhost:4000/iframe-orgin</link>
+				<guid isPermaLink="true">http://localhost:4000/iframe-orgin</guid>
 			</item>
 			
 		
