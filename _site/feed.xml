@@ -3,22 +3,34 @@
 	<channel>
 		<title>hope0922's Blog - Articles</title>
 		<description>Everything about hope0922.</description>
-		<link>http://localhost:4000</link>
-		<atom:link href="http://localhost:4000/feed.articles.xml" rel="self" type="application/rss+xml" />
+		<link>http://hope0922.github.io</link>
+		<atom:link href="http://hope0922.github.io/feed.articles.xml" rel="self" type="application/rss+xml" />
+		
+			
+			<item>
+				<title>问题汇总记录（1）</title>
+				
+					<description>&lt;h3 id=&quot;项目自定义组件沟通&quot;&gt;项目自定义组件沟通&lt;/h3&gt;
+</description>
+				
+				<pubDate>Wed, 04 Dec 2019 00:00:00 +0800</pubDate>
+				<link>http://hope0922.github.io/problem</link>
+				<guid isPermaLink="true">http://hope0922.github.io/problem</guid>
+			</item>
+			
 		
 			
 			<item>
 				<title>webpack配置入门</title>
 				
 					<description>&lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;https://www.jianshu.com/p/42e11515c10f#&quot;&gt;webpack配置入门&lt;/a&gt;;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://www.jianshu.com/p/42e11515c10f#&quot;&gt;webpack配置入门&lt;/a&gt;;&lt;/li&gt;
 &lt;/ul&gt;
-
 </description>
 				
 				<pubDate>Wed, 05 Sep 2018 00:00:00 +0800</pubDate>
-				<link>http://localhost:4000/webpack</link>
-				<guid isPermaLink="true">http://localhost:4000/webpack</guid>
+				<link>http://hope0922.github.io/webpack</link>
+				<guid isPermaLink="true">http://hope0922.github.io/webpack</guid>
 			</item>
 			
 		
@@ -27,14 +39,13 @@
 				<title>reactjs常用技巧</title>
 				
 					<description>&lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;https://www.cnblogs.com/minghui007/p/8177775.html&quot;&gt;reactjs常用技巧&lt;/a&gt;;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://www.cnblogs.com/minghui007/p/8177775.html&quot;&gt;reactjs常用技巧&lt;/a&gt;;&lt;/li&gt;
 &lt;/ul&gt;
-
 </description>
 				
 				<pubDate>Wed, 05 Sep 2018 00:00:00 +0800</pubDate>
-				<link>http://localhost:4000/react-skills</link>
-				<guid isPermaLink="true">http://localhost:4000/react-skills</guid>
+				<link>http://hope0922.github.io/react-skills</link>
+				<guid isPermaLink="true">http://hope0922.github.io/react-skills</guid>
 			</item>
 			
 		
@@ -43,14 +54,13 @@
 				<title>reactjs常用组件沟通</title>
 				
 					<description>&lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;http://www.alloyteam.com/2016/01/some-methods-of-reactjs-communication-between-components&quot;&gt;reactjs常用组件沟通&lt;/a&gt;;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;http://www.alloyteam.com/2016/01/some-methods-of-reactjs-communication-between-components&quot;&gt;reactjs常用组件沟通&lt;/a&gt;;&lt;/li&gt;
 &lt;/ul&gt;
-
 </description>
 				
 				<pubDate>Wed, 05 Sep 2018 00:00:00 +0800</pubDate>
-				<link>http://localhost:4000/react-communicate</link>
-				<guid isPermaLink="true">http://localhost:4000/react-communicate</guid>
+				<link>http://hope0922.github.io/react-communicate</link>
+				<guid isPermaLink="true">http://hope0922.github.io/react-communicate</guid>
 			</item>
 			
 		
@@ -59,14 +69,13 @@
 				<title>reactjs性能优化之shouldComponentUpdate</title>
 				
 					<description>&lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;http://blog.csdn.net/jjx0224/article/details/49869597&quot;&gt;reactjs性能优化之shouldComponentUpdate&lt;/a&gt;;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;http://blog.csdn.net/jjx0224/article/details/49869597&quot;&gt;reactjs性能优化之shouldComponentUpdate&lt;/a&gt;;&lt;/li&gt;
 &lt;/ul&gt;
-
 </description>
 				
 				<pubDate>Tue, 06 Feb 2018 00:00:00 +0800</pubDate>
-				<link>http://localhost:4000/react-shouldComponentUpdate</link>
-				<guid isPermaLink="true">http://localhost:4000/react-shouldComponentUpdate</guid>
+				<link>http://hope0922.github.io/react-shouldComponentUpdate</link>
+				<guid isPermaLink="true">http://hope0922.github.io/react-shouldComponentUpdate</guid>
 			</item>
 			
 		
@@ -75,14 +84,13 @@
 				<title>reactjs性能优化之shouldComponentUpdate</title>
 				
 					<description>&lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;http://blog.csdn.net/jjx0224/article/details/49869597&quot;&gt;reactjs性能优化之shouldComponentUpdate&lt;/a&gt;;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;http://blog.csdn.net/jjx0224/article/details/49869597&quot;&gt;reactjs性能优化之shouldComponentUpdate&lt;/a&gt;;&lt;/li&gt;
 &lt;/ul&gt;
-
 </description>
 				
 				<pubDate>Tue, 06 Feb 2018 00:00:00 +0800</pubDate>
-				<link>http://localhost:4000/react-shouldComponentUpdate-%E5%89%AF%E6%9C%AC</link>
-				<guid isPermaLink="true">http://localhost:4000/react-shouldComponentUpdate-%E5%89%AF%E6%9C%AC</guid>
+				<link>http://hope0922.github.io/react-shouldComponentUpdate-%E5%89%AF%E6%9C%AC</link>
+				<guid isPermaLink="true">http://hope0922.github.io/react-shouldComponentUpdate-%E5%89%AF%E6%9C%AC</guid>
 			</item>
 			
 		
@@ -90,17 +98,16 @@
 			<item>
 				<title>项目一览~</title>
 				
-					<description>&lt;h2&gt;项目信息&lt;/h2&gt;
-
-&lt;p&gt;&lt;code&gt;个人博客&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;2018.01 - 至今&lt;/em&gt;&lt;br/&gt;
+					<description>&lt;h2 id=&quot;项目信息&quot;&gt;项目信息&lt;/h2&gt;
+&lt;p&gt;&lt;code&gt;个人博客&lt;/code&gt;&lt;br /&gt;
+&lt;em&gt;2018.01 - 至今&lt;/em&gt;&lt;br /&gt;
 在github上用jkeyll框架搭了一个简单博客记录自己日常的工作学习，以便于总结学习。并将自己的简历简单迁到了github的博客上。
 地址: hope0922.github.io&lt;/p&gt;
 </description>
 				
 				<pubDate>Wed, 31 Jan 2018 00:00:00 +0800</pubDate>
-				<link>http://localhost:4000/my-project</link>
-				<guid isPermaLink="true">http://localhost:4000/my-project</guid>
+				<link>http://hope0922.github.io/my-project</link>
+				<guid isPermaLink="true">http://hope0922.github.io/my-project</guid>
 			</item>
 			
 		
@@ -108,12 +115,12 @@
 			<item>
 				<title>这是我的简历~</title>
 				
-					<description>&lt;h1&gt;我是谁?&lt;/h1&gt;
+					<description>&lt;h1 id=&quot;我是谁&quot;&gt;我是谁?&lt;/h1&gt;
 </description>
 				
 				<pubDate>Tue, 30 Jan 2018 00:00:00 +0800</pubDate>
-				<link>http://localhost:4000/my-resume</link>
-				<guid isPermaLink="true">http://localhost:4000/my-resume</guid>
+				<link>http://hope0922.github.io/my-resume</link>
+				<guid isPermaLink="true">http://hope0922.github.io/my-resume</guid>
 			</item>
 			
 		
@@ -121,12 +128,12 @@
 			<item>
 				<title>Redux通俗易懂的理解</title>
 				
-					<description>&lt;h1&gt;Redux通俗易懂的理解&lt;/h1&gt;
+					<description>&lt;h1 id=&quot;redux通俗易懂的理解&quot;&gt;Redux通俗易懂的理解&lt;/h1&gt;
 </description>
 				
 				<pubDate>Tue, 30 Jan 2018 00:00:00 +0800</pubDate>
-				<link>http://localhost:4000/redux-understand</link>
-				<guid isPermaLink="true">http://localhost:4000/redux-understand</guid>
+				<link>http://hope0922.github.io/redux-understand</link>
+				<guid isPermaLink="true">http://hope0922.github.io/redux-understand</guid>
 			</item>
 			
 		
@@ -134,12 +141,12 @@
 			<item>
 				<title>jquery插件封装</title>
 				
-					<description>&lt;h1&gt;jquery插件封装&lt;/h1&gt;
+					<description>&lt;p&gt;#jquery插件封装&lt;/p&gt;
 </description>
 				
 				<pubDate>Tue, 30 Jan 2018 00:00:00 +0800</pubDate>
-				<link>http://localhost:4000/jquery-plugin</link>
-				<guid isPermaLink="true">http://localhost:4000/jquery-plugin</guid>
+				<link>http://hope0922.github.io/jquery-plugin</link>
+				<guid isPermaLink="true">http://hope0922.github.io/jquery-plugin</guid>
 			</item>
 			
 		
@@ -147,12 +154,12 @@
 			<item>
 				<title>iframe跨域传输数据</title>
 				
-					<description>&lt;h2&gt;iframe跨域传输数据（一）；子页面访问主框架DOM元素；&lt;/h2&gt;
+					<description>&lt;h2 id=&quot;iframe跨域传输数据一子页面访问主框架dom元素&quot;&gt;iframe跨域传输数据（一）；子页面访问主框架DOM元素；&lt;/h2&gt;
 </description>
 				
 				<pubDate>Tue, 30 Jan 2018 00:00:00 +0800</pubDate>
-				<link>http://localhost:4000/iframe-orgin</link>
-				<guid isPermaLink="true">http://localhost:4000/iframe-orgin</guid>
+				<link>http://hope0922.github.io/iframe-orgin</link>
+				<guid isPermaLink="true">http://hope0922.github.io/iframe-orgin</guid>
 			</item>
 			
 		

@@ -1,0 +1,190 @@
+I"F"<h3 id="项目自定义组件沟通">项目自定义组件沟通</h3>
+
+<p>在前期的项目中需要自己搭建一个自定义组件的项目库，自定义组件通过iframe的形式嵌入到主项目。
+对项目架构进行设计后决定根据路径判断需要用到哪个通用组件，然后通过postmessage的形式传递数据。</p>
+<pre><code class="language-javascript">    window.postMessage();
+</code></pre>
+
+<h3 id="项目路径简化配置">项目路径简化@配置</h3>
+
+<p>每次引用组件或方法都要一层一层去找，配置后只需@+对应文件夹就可引用组件和方法
+更改webpack配置</p>
+<pre><code class="language-javascript">    alias: {
+    'react-native': 'react-native-web',
+    '@src':paths.appSrc,
+    '@components':paths.appComponent,
+    '@until':paths.appUntil
+    }
+</code></pre>
+
+<h3 id="项目打包开启速度慢分析">项目打包开启速度慢分析</h3>
+
+<p>项目每次开启打包的都要很长时间，用webpack-bundle-analyzer插件可视化分析项目加载耗时状态
+最后发现是这个项目的antd包没有配置进按需加载，最后配置完成后速度快了几十秒。</p>
+
+<h3 id="typescript-无状态组件">typescript 无状态组件</h3>
+<pre><code class="language-javascript">    interface MyComponentProps {
+        prop1: boolean;
+        prop2?: string;
+        prop3?: string;
+    }
+
+    export const MyComponent = React.SFC&lt;MyComponentProps&gt;
+</code></pre>
+
+<h3 id="项目服务器接口外挂config文件">项目服务器接口外挂config文件</h3>
+
+<p>项目可以自己根据当前的开发或生产环境更改对应服务器接口的地址，不过这样写死如果项目地址换了就得重新更改。
+所以和后台约定外挂config接口地址文件，我本地项目读取config文件的接口地址。打包部署到正式环境后，后台只需要
+更改config文件来更改前端请求的地址，注意config文件需放在根目录public下或生产环境的build文件夹下</p>
+
+<pre><code class="language-javascript">    axios.get('/config.json').then((result) =&gt; {
+        //设置通用接口地址
+    })
+</code></pre>
+
+<h3 id="高德地图接入移动端https问题">高德地图接入移动端https问题</h3>
+
+<p>在移动端巡检的项目中需要用到高德的jsapi，但是高德的定位功能在移动端app的webview中不生效，最后调试发现浏览器报了
+警告，定位功能只能在https的环境下才能使用，最后部署在https环境下，定位功能正常使用</p>
+
+<h3 id="pc端跨域cookie验证">PC端跨域cookie验证</h3>
+
+<p>pc端的一个项目需要验证用户身份，最后采用第三方验证的方式。和后台约定一个跳转中间的路由和header头 x-token，将token传给后台
+返回给我一个第三方code 再将code传给后台，后台响应头设置cookie，在我的项目中axios开启允许第三方跨域请求的选项withCredentials。</p>
+
+<h3 id="移动端跨域cookie验证">移动端跨域cookie验证</h3>
+
+<p>在比较新版本的android和ios的webview中，默认是不支持跨域cookie的传递的，导致移动端接口都失灵了。一番搜寻后，发现安卓和ios都有对应
+的开启跨域请求的接口的。不过ios开启后，还需手动开启自己手机系统设置中的允许网站追踪的功能。这就很尴尬，然后我想到了另外一个方法，不
+以cookie的形式传递jssessionid，在header头上和后台约定一个jssessionid的字段来进行验证，最后完美验证运行。</p>
+
+<h3 id="h5拍照上传-各个手机方向问题">h5拍照上传 各个手机方向问题</h3>
+<p>最近做了一个app内嵌的h5拍照上传页面，发现ios和部分android机型竖着拍照预览时会自动旋转90度。因为我这边的功能是每拍一次照上传到后台，
+导致手机上拍出来的照片预览的实际效果和pc端后台管理上的照片不一样。最后想到一个方法，从源头上先把照片旋转到正确的位置再上传，这样就可以
+保证移动端和pc端的统一。具体实现方案是这样的：上传组件拍照上传时，新建一个FileReader对象读取上传的文件，添加Reader对象的onload事件，
+将Reader对象的路径赋值在一个img标签上（用来读取上传的原图的信息），将图片转为对应canvas，根据antd-mobile的imagepicker组件返回的图片
+的方向orientation来判断旋转的角度。最后将canvas转成img对应格式的base64格式，然后转成File的格式上传。</p>
+
+<pre><code class="language-javascript">    var orientation = fileObj.orientation;
+    var oReader = new FileReader();
+    oReader.onload =  (e:any)=&gt; {
+        var image: any = new Image();
+        image.src = e.target.result;
+        image.onload = ()=&gt; {
+            var canvas = document.createElement("canvas");
+            var ctx = canvas.getContext("2d");
+            var resultFile = null;
+            var ua = navigator.userAgent;
+            canvas.width = image.naturalWidth;
+            canvas.height = image.naturalHeight;
+            ctx.drawImage(image, 0, 0, image.naturalWidth, image.naturalHeight);
+            // android终端
+            var isAdr = ua.indexOf("Android") &gt; -1 || ua.indexOf("Adr") &gt; -1;
+            // ios终端
+            var isIOS = ua.indexOf("iPhone") &gt; -1 || ua.indexOf("iOS") &gt; -1;
+            // 修复ios 或 Android
+            if (isIOS || isAdr) {
+                // 如果方向角不为1，都需要进行旋转
+                if (orientation &amp;&amp; orientation !== "" &amp;&amp; orientation !== 1) {
+                    switch (orientation) {
+                        case 6: // 需要顺时针（向左）90度旋转
+                            commonutil.rotateImg(image, "left", canvas);
+                            break;
+                        case 8: // 需要逆时针（向右）90度旋转
+                            commonutil.rotateImg(image, "right90", canvas);
+                            break;
+                        case 3: // 需要180度旋转，转两次
+                            commonutil.rotateImg(image, "right180", canvas);
+                            break;
+                    }
+                }
+                resultFile = canvas.toDataURL("image/jpeg", 0.5);
+            } else {
+                resultFile = canvas.toDataURL("image/jpeg",0.5);
+            }
+            if(orientation!==1){
+                formData.append('file', commonutil.dataURLtoFile(resultFile, 1, fileObj.file.name));
+            }else{
+                formData.append('file', fileObj.file);
+            }
+        };
+    oReader.readAsDataURL(fileObj.file);
+
+       /**
+   * 旋转图片
+   */
+   rotateImg(img, direction, canvas) {
+    if (img === null) return;
+    // 最小与最大旋转方向，图片旋转4次后回到原方向
+    var minStep = 0;
+    var maxStep = 3;
+    // img的高度和宽度不能在img元素隐藏后获取，否则会出错
+    var width = img.width;
+    var height = img.height;
+    var step = 2;
+    if (step === null) step = minStep;
+    if (direction === "right90") {
+      step++;
+      step &gt; maxStep &amp;&amp; (step = minStep);
+    } else if(direction === "right180") {
+      step = 2;
+    } else {
+      step--;
+      step &lt; minStep &amp;&amp; (step = maxStep);
+    }
+    // 旋转角度以弧度值为参数
+    var degree = step * 90 * Math.PI / 180;
+    var ctx = canvas.getContext("2d");
+    switch (step) {
+      case 0:
+        canvas.width = width;
+        canvas.height = height;
+        ctx.drawImage(img, 0, 0, width, height);
+        break;
+      case 1:
+        canvas.width = height;
+        canvas.height = width;
+        ctx.rotate(degree);
+        ctx.drawImage(img, 0, -height, width, height);
+        break;
+      case 2:
+        canvas.width = width;
+        canvas.height = height;
+        ctx.rotate(degree);
+        ctx.drawImage(img, -width, -height, width, height);
+        break;
+      case 3:
+        canvas.width = height;
+        canvas.height = width;
+        ctx.rotate(degree);
+        ctx.drawImage(img, -width, 0, width, height);
+        break;
+    }
+  },
+  /**
+   * type：1 file对象，2 blob对象
+   */
+   dataURLtoFile(dataurl, type, filename) {
+    var arr = dataurl.split(',');
+    var mime = arr[0].match(/:(.*?);/)[1];
+    var bstr = atob(arr[1]);
+    var n = bstr.length;
+    var u8arr = new Uint8Array(n);
+    while (n--) {
+      u8arr[n] = bstr.charCodeAt(n);
+    }
+    if (type === 1) { // 转换成file对象
+      return new File([u8arr], filename, {
+        type: mime
+      });
+    } else { // 转换成成blob对象
+      return new Blob([u8arr], {
+        type: mime
+      });
+    }
+  }
+</code></pre>
+
+<h3 id="未完待续">未完待续。。。</h3>
+:ET
