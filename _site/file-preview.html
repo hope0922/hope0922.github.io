@@ -7,7 +7,7 @@
     * Revised:        hope0922
     -->
     <meta charset="utf-8" />
-    <title>项目一览~ | hope0922's blog</title>
+    <title>PC+移动端文件预览解决方案 | hope0922's blog</title>
     <meta name="author" content="Mukosame" />
     <meta name="renderer" content="webkit">
     <meta name="description" content="Everything about Mukosame" />
@@ -43,25 +43,14 @@
 
 <div id="content">
     <div class="entry">
-        <h1 class="entry-title"><a href="/my-project" title="项目一览~">项目一览~</a></h1>
-        <p class="entry-date">2018-01-31</p>
-        <h2 id="项目信息">项目信息</h2>
-<p><code>个人博客</code><br />
-<em>2018.01 - 至今</em><br />
-在github上用jkeyll框架搭了一个简单博客记录自己日常的工作学习，以便于总结学习。并将自己的简历简单迁到了github的博客上。
-地址: hope0922.github.io</p>
+        <h1 class="entry-title"><a href="/file-preview" title="PC+移动端文件预览解决方案">PC+移动端文件预览解决方案</a></h1>
+        <p class="entry-date">2020-05-26</p>
+        <h3 id="pc移动端文件预览解决方案">PC+移动端文件预览解决方案</h3>
 
-<p><code>汇教网络课堂App</code><br />
-<em>2017.11 - 至今</em><br />
-react-native + redux 参与开发汇教网络课堂App 将web端整合为androidApp，2018.8月实现上线</p>
-
-<p><code>汇教网络课堂Web端</code><br />
-<em>2016.11 - 至今</em><br />
-前期修改旧版本bug及性能优化。17年全网站重构，主要用jquery框架，2017.5-2017.9完全重构，并完成整个网站并上线。让我懂得了正规开发的流程，规范了自己的代码，熟练Git操作。后续进行功能开发及优化。</p>
-
-<p><code>个人简历网站</code><br />
-<em>2016.10 - 2016.11</em><br />
-用fullpage插件和jquery写的自己的简历网站www.hopeme.cc, 第一次开发了自己的网站。</p>
+<p>近期项目中碰到了文件预览的功能，包括office、文本及图片文件。文本和图片预览都是好解决，但是office的excel、ppt和word
+本身浏览器是不支持预览加载的。在线预览的话，微软官方的在线预览接口是可以实现office的预览，但时项目部署不支持外网访问，
+那么这条路也是走不通了。最后只能后台通过openoffice将上传的文件转成pdf格式，再传给前端实现预览。前端pdf预览浏览器是默认
+支持的，但是移动端webview不支持pdf的预览。那就只能通过pdfh5插件转成svg或者canvas进行预览，canvas的性能更好一点。</p>
 
         <div id="disqus_container">
             <class="comment"/>
