@@ -1,0 +1,10 @@
+I"�<p>```javascript
+//#基础镜像
+FROM docker.bluetron.com/library/nginx:latest
+//#维护者
+MAINTAINER linlinyeyu
+//#添加文件到容器
+ADD config/nginx.conf /etc/nginx/nginx.conf
+ADD build /dist
+ENTRYPOINT [“sh”,”-c”,”nginx”]</p>
+:ET

@@ -7,7 +7,7 @@
     * Revised:        hope0922
     -->
     <meta charset="utf-8" />
-    <title>reactjs性能优化之shouldComponentUpdate | hope0922's blog</title>
+    <title>前端项目nginx+docker部署配置及子目录部署 | hope0922's blog</title>
     <meta name="author" content="Mukosame" />
     <meta name="renderer" content="webkit">
     <meta name="description" content="Everything about Mukosame" />
@@ -43,11 +43,87 @@
 
 <div id="content">
     <div class="entry">
-        <h1 class="entry-title"><a href="/react-shouldComponentUpdate-%E5%89%AF%E6%9C%AC" title="reactjs性能优化之shouldComponentUpdate">reactjs性能优化之shouldComponentUpdate</a></h1>
-        <p class="entry-date">2018-02-06</p>
-        <ul>
-  <li><a href="http://blog.csdn.net/jjx0224/article/details/49869597">reactjs性能优化之shouldComponentUpdate</a>;</li>
-</ul>
+        <h1 class="entry-title"><a href="/nginx" title="前端项目nginx+docker部署配置及子目录部署">前端项目nginx+docker部署配置及子目录部署</a></h1>
+        <p class="entry-date">2020-08-13</p>
+        <pre><code class="language-javascript">//#基础镜像
+FROM docker.bluetron.com/library/nginx:latest
+//#维护者
+MAINTAINER linlinyeyu
+//#添加文件到容器
+ADD config/nginx.conf /etc/nginx/nginx.conf
+ADD build /dist
+ENTRYPOINT ["sh","-c","nginx"]
+
+</code></pre>
+
+<pre><code class="language-javascript">
+daemon off;
+//#定义Nginx运行的用户和用户组
+user  root;
+// #nginx进程数，建议设置为等于CPU总核心数。
+worker_processes  1;
+
+// #全局错误日志定义类型，[ debug | info | notice | warn | error | crit ]
+error_log  /var/log/nginx/error.log warn;
+// #进程文件
+pid        /var/run/nginx.pid;
+
+// #工作模式与连接数上限
+events {
+    worker_connections  1024;
+}
+
+// #设定http服务器
+http {
+    // #文件扩展名与文件类型映射表
+    include       /etc/nginx/mime.types;
+    // #默认文件类型
+    default_type  application/octet-stream;
+    // #日志格式设定
+    log_format  main  '$remote_addr - $remote_user [$time_local] "$request" '
+                      '$status $body_bytes_sent "$http_referer" '
+                      '"$http_user_agent" "$http_x_forwarded_for"';
+    //  #定义本虚拟主机的访问日志
+    access_log  /var/log/nginx/access.log  main;
+    // #开启高效文件传输模式
+    sendfile        on;
+    //#tcp_nopush     on;
+    // #长连接超时时间，单位是秒
+    keepalive_timeout  65;
+    // #开启目录列表访问，合适下载服务器，默认关闭。
+    autoindex  on;
+
+    //#gzip  on;
+
+    //#include /etc/nginx/conf.d/*.conf;
+    // #允许客户端请求的最大单文件字节数
+    client_max_body_size 100M;
+    // #上传文件大小限制
+    client_header_buffer_size    128k;
+    // #设定请求缓
+    large_client_header_buffers  4  128k;
+
+    server {
+        // #监听80端口
+         listen 80;
+         // #对 "/" 启用反向代理
+         location /website {
+           //指定当前目录
+           alias /dist;
+           // 依次按照顺序检查文件是否存在
+           try_files $uri /index.html /;
+           index index.html;
+           access_log /var/log/nginx/dist.log;
+         }
+         //#本地动静分离反向代理配置
+        location /api/ {
+          proxy_pass http://127.0.0.1:7001/;
+      }
+    }
+}
+
+
+</code></pre>
 
 
         <div id="disqus_container">

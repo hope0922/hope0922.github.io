@@ -8,7 +8,28 @@
 		
 			
 			<item>
-				<title>PC+移动端文件预览解决方案</title>
+				<title>前端项目nginx+docker部署配置及子目录部署</title>
+				
+					<description>&lt;p&gt;```javascript
+//#基础镜像
+FROM docker.bluetron.com/library/nginx:latest
+//#维护者
+MAINTAINER linlinyeyu
+//#添加文件到容器
+ADD config/nginx.conf /etc/nginx/nginx.conf
+ADD build /dist
+ENTRYPOINT [“sh”,”-c”,”nginx”]&lt;/p&gt;
+</description>
+				
+				<pubDate>Thu, 13 Aug 2020 00:00:00 +0800</pubDate>
+				<link>http://hope0922.github.io/nginx</link>
+				<guid isPermaLink="true">http://hope0922.github.io/nginx</guid>
+			</item>
+			
+		
+			
+			<item>
+				<title>PC+移动端文件预览解决方案（离线无外网）</title>
 				
 					<description>&lt;h3 id=&quot;pc移动端文件预览解决方案&quot;&gt;PC+移动端文件预览解决方案&lt;/h3&gt;
 </description>
@@ -47,10 +68,10 @@
 		
 			
 			<item>
-				<title>webpack配置入门</title>
+				<title>webpack原理</title>
 				
 					<description>&lt;ul&gt;
-  &lt;li&gt;&lt;a href=&quot;https://www.jianshu.com/p/42e11515c10f#&quot;&gt;webpack配置入门&lt;/a&gt;;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://segmentfault.com/a/1190000015088834?utm_source=tag-newest&quot;&gt;webpack原理&lt;/a&gt;;&lt;/li&gt;
 &lt;/ul&gt;
 </description>
 				

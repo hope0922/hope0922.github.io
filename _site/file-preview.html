@@ -7,7 +7,7 @@
     * Revised:        hope0922
     -->
     <meta charset="utf-8" />
-    <title>PC+移动端文件预览解决方案 | hope0922's blog</title>
+    <title>PC+移动端文件预览解决方案（离线无外网） | hope0922's blog</title>
     <meta name="author" content="Mukosame" />
     <meta name="renderer" content="webkit">
     <meta name="description" content="Everything about Mukosame" />
@@ -43,7 +43,7 @@
 
 <div id="content">
     <div class="entry">
-        <h1 class="entry-title"><a href="/file-preview" title="PC+移动端文件预览解决方案">PC+移动端文件预览解决方案</a></h1>
+        <h1 class="entry-title"><a href="/file-preview" title="PC+移动端文件预览解决方案（离线无外网）">PC+移动端文件预览解决方案（离线无外网）</a></h1>
         <p class="entry-date">2020-05-26</p>
         <h3 id="pc移动端文件预览解决方案">PC+移动端文件预览解决方案</h3>
 
@@ -51,6 +51,27 @@
 本身浏览器是不支持预览加载的。在线预览的话，微软官方的在线预览接口是可以实现office的预览，但时项目部署不支持外网访问，
 那么这条路也是走不通了。最后只能后台通过openoffice将上传的文件转成pdf格式，再传给前端实现预览。前端pdf预览浏览器是默认
 支持的，但是移动端webview不支持pdf的预览。那就只能通过pdfh5插件转成svg或者canvas进行预览，canvas的性能更好一点。</p>
+
+<h3 id="2020-8-13更新">2020-8-13更新</h3>
+
+<p>因为数据中台不支持文件地址的直接返回，而是返回二进制的文件流。文件预览方案相应的需要作出变化。</p>
+
+<pre><code class="language-javascript">//初始方案将返回的二进制流blob对象赋值给img、video及iframe进行预览
+
+window.URL.createObjectURL(blob);
+</code></pre>
+
+<p>图片和视频是正常的，赋值给iframe一直预览不出来pdf、txt和html文件
+查询资料后发现iframe不能根据blob对象的地址判断文件是什么类型从而进行预览</p>
+
+<p>所以根据文件类型给blob对象加上对应的type</p>
+<pre><code class="language-javascript">    blob = new Blob([blob], {
+        type: 'application/pdf;chartset=UTF-8'
+        //type: 'text/html;chartset=UTF-8'
+    });
+</code></pre>
+
+<p>再次预览，一切正常，完美</p>
 
         <div id="disqus_container">
             <class="comment"/>
@@ -63,13 +84,15 @@
         <h2>Blog</h2>
         <ul class="artical-list">
         
-            <li><a href="/file-preview">PC+移动端文件预览解决方案</a></li>
+            <li><a href="/nginx">前端项目nginx+docker部署配置及子目录部署</a></li>
+        
+            <li><a href="/file-preview">PC+移动端文件预览解决方案（离线无外网）</a></li>
         
             <li><a href="/study-record">JS基础学习巩固记录</a></li>
         
             <li><a href="/problem">问题汇总记录（1）</a></li>
         
-            <li><a href="/webpack">webpack配置入门</a></li>
+            <li><a href="/webpack">webpack原理</a></li>
         
             <li><a href="/react-skills">reactjs常用技巧</a></li>
         
