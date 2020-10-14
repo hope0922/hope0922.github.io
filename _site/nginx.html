@@ -106,7 +106,7 @@ http {
     server {
         // #监听80端口
          listen 80;
-         // #对 "/" 启用反向代理
+         // #对 "/website" 启用反向代理
          location /website {
            //指定当前目录
            alias /dist;
@@ -115,7 +115,7 @@ http {
            index index.html;
            access_log /var/log/nginx/dist.log;
          }
-         //#本地动静分离反向代理配置
+         //#本地请求api时反向代理
         location /api/ {
           proxy_pass http://127.0.0.1:7001/;
       }
@@ -125,6 +125,27 @@ http {
 
 </code></pre>
 
+<h3 id="前端项目子目录部署">前端项目子目录部署</h3>
+
+<p>修改webpack静态资源公用路径及前端路由增加前缀</p>
+
+<pre><code class="language-javascript">{
+      publicPath: isEnvProduction? '/apps/lz-document/website/' :paths.publicUrlOrPath,
+}
+
+      &lt;Router basename={'/apps/lz-document/website/'}&gt;
+        {this.renderAppRoutes()}
+      &lt;/Router&gt;
+
+</code></pre>
+
+<p>最后发现静态资源的地址其实只要更改package.json的homepage地址就可以,而且这种方式，在index.html上的静态资源的publicPath都会随之更新
+所以直接改成</p>
+
+<pre><code class="language-javascript">{
+      homepage: '/apps/lz-document/website/'
+}
+</code></pre>
 
         <div id="disqus_container">
             <class="comment"/>
@@ -152,8 +173,6 @@ http {
             <li><a href="/react-communicate">reactjs常用组件沟通</a></li>
         
             <li><a href="/react-shouldComponentUpdate">reactjs性能优化之shouldComponentUpdate</a></li>
-        
-            <li><a href="/react-shouldComponentUpdate-%E5%89%AF%E6%9C%AC">reactjs性能优化之shouldComponentUpdate</a></li>
         
             <li><a href="/redux-understand">Redux通俗易懂的理解</a></li>
         

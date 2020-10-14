@@ -1,12 +1,4 @@
----
-layout:     post
-title:     	前端项目nginx+docker部署配置及子目录部署
-category: blog
-description: 前端项目nginx+docker部署及子目录部署
----
-
-```javascript
-//#基础镜像
+I"�<pre><code class="language-javascript">//#基础镜像
 FROM docker.bluetron.com/library/nginx:latest
 //#维护者
 MAINTAINER linlinyeyu
@@ -15,11 +7,9 @@ ADD config/nginx.conf /etc/nginx/nginx.conf
 ADD build /dist
 ENTRYPOINT ["sh","-c","nginx"]
 
-```
+</code></pre>
 
-
-```javascript
-
+<pre><code class="language-javascript">
 daemon off;
 //#定义Nginx运行的用户和用户组
 user  root;
@@ -86,29 +76,27 @@ http {
 }
 
 
-```
+</code></pre>
 
+<h3 id="前端项目子目录部署">前端项目子目录部署</h3>
 
-### 前端项目子目录部署
+<p>修改webpack静态资源公用路径及前端路由增加前缀</p>
 
-修改webpack静态资源公用路径及前端路由增加前缀
-
-```javascript
-{
+<pre><code class="language-javascript">{
       publicPath: isEnvProduction? '/apps/lz-document/website/' :paths.publicUrlOrPath,
 }
 
-      <Router basename={'/apps/lz-document/website/'}>
+      &lt;Router basename={'/apps/lz-document/website/'}&gt;
         {this.renderAppRoutes()}
-      </Router>
+      &lt;/Router&gt;
 
-```
+</code></pre>
 
-最后发现静态资源的地址其实只要更改package.json的homepage地址就可以,而且这种方式，在index.html上的静态资源的publicPath都会随之更新
-所以直接改成
+<p>最后发现静态资源的地址其实只要更改package.json的homepage地址就可以,而且这种方式，在index.html上的静态资源的publicPath都会随之更新
+所以直接改成</p>
 
-```javascript
-{
+<pre><code class="language-javascript">{
       homepage: '/apps/lz-document/website/'
 }
-```
+</code></pre>
+:ET
