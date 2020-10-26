@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!--
+    * Author:         BeiYuu
+    * Revised:        Mukosame
+    * Revised:        hope0922
+    -->
+    <meta charset="utf-8" />
+    <title>常用的设计模式之行为模式 | hope0922's blog</title>
+    <meta name="author" content="Mukosame" />
+    <meta name="renderer" content="webkit">
+    <meta name="description" content="Everything about Mukosame" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+    <link rel="stylesheet" href="/css/default.css" type="text/css" />
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="alternate" type="application/atom+xml" title="Recent Entries" href="/atom.xml" />
+    <link rel="alternatecss" type="application/rss+xml" title="hope0922's Blog" href="http://hope0922.github.io/feed.xml">
+    <script src="/js/jquery-1.7.1.min.js" type="text/javascript"></script>
+</head>
+<body>
+
+    <div class="home-menu">
+        <div class="home-icon-con">
+            <a class="home-menu-icon" href="/">Hope0922</a>
+            <a class="home-follow" href="#" title="Contact Me">+</a>
+        </div>
+        <div class="home-contact" style="width:136px;height: 20px; font-size: 12px; overflow: hidden;text-overflow: ellipsis;white-space: nowrap;" title="e-mail:hopexie0922@.163.com">
+            hopexie0922@.163.com
+        </div>
+    </div>
+
+    <link rel="stylesheet" href="/js/prettify/prettify.css" />
+<style type="text/css">
+    body { background:#e8e8e8; }
+    @media screen and (max-width: 750px){
+        body { background:#fff; }
+    }
+    @media screen and (max-width: 1020px){
+        body { background:#fff; }
+    }
+</style>
+
+<div id="content">
+    <div class="entry">
+        <h1 class="entry-title"><a href="/behavior-patterns" title="常用的设计模式之行为模式">常用的设计模式之行为模式</a></h1>
+        <p class="entry-date">2020-10-26</p>
+        <h2 id="责任链模式-chain-of-responsibility">责任链模式 Chain of Responsibility</h2>
+
+<p><strong>责任链模式</strong>是一种行为设计模式， 允许你将请求沿着处理者链进行发送。 收到请求后， 每个处理者均可对请求进行处理， 或将其传递给链上的下个处理者。</p>
+
+<h3 id="责任链模式适合应用场景">责任链模式适合应用场景</h3>
+
+<p><strong>当程序需要使用不同方式处理不同种类请求， 而且请求类型和顺序预先未知时， 可以使用责任链模式。</strong></p>
+
+<p>该模式能将多个处理者连接成一条链。 接收到请求后， 它会 “询问” 每个处理者是否能够对其进行处理。 这样所有处理者都有机会来处理请求。</p>
+
+<p><strong>当必须按顺序执行多个处理者时， 可以使用该模式。</strong></p>
+
+<p>无论你以何种顺序将处理者连接成一条链， 所有请求都会严格按照顺序通过链上的处理者。</p>
+
+<p><strong>如果所需处理者及其顺序必须在运行时进行改变， 可以使用责任链模式。</strong></p>
+
+<p>如果在处理者类中有对引用成员变量的设定方法， 你将能动态地插入和移除处理者， 或者改变其顺序。</p>
+
+<h2 id="命令模式-command">命令模式 Command</h2>
+
+<p><strong>命令模式</strong>是一种行为设计模式， 它可将请求转换为一个包含与请求相关的所有信息的独立对象。 该转换让你能根据不同的请求将方法参数化、 延迟请求执行或将其放入队列中， 且能实现可撤销操作。</p>
+
+<h3 id="命令模式适合应用场景">命令模式适合应用场景</h3>
+
+<p><strong>如果你需要通过操作来参数化对象， 可使用命令模式。</strong></p>
+
+<p>命令模式可将特定的方法调用转化为独立对象。 这一改变也带来了许多有趣的应用： 你可以将命令作为方法的参数进行传递、 将命令保存在其他对象中， 或者在运行时切换已连接的命令等。</p>
+
+<p>举个例子： 你正在开发一个 GUI 组件 （例如上下文菜单）， 你希望用户能够配置菜单项， 并在点击菜单项时触发操作。</p>
+
+<p><strong>如果你想要将操作放入队列中、 操作的执行或者远程执行操作， 可使用命令模式。</strong></p>
+
+<p>同其他对象一样， 命令也可以实现序列化 （序列化的意思是转化为字符串）， 从而能方便地写入文件或数据库中。 一段时间后， 该字符串可被恢复成为最初的命令对象。 因此， 你可以延迟或计划命令的执行。 但其功能远不止如此！ 使用同样的方式， 你还可以将命令放入队列、 记录命令或者通过网络发送命令。</p>
+
+<p><strong>如果你想要实现操作回滚功能， 可使用命令模式。</strong></p>
+
+<p>尽管有很多方法可以实现撤销和恢复功能， 但命令模式可能是其中最常用的一种。</p>
+
+<p>为了能够回滚操作， 你需要实现已执行操作的历史记录功能。 命令历史记录是一种包含所有已执行命令对象及其相关程序状态备份的栈结构。</p>
+
+<p>这种方法有两个缺点。 首先， 程序状态的保存功能并不容易实现， 因为部分状态可能是私有的。 你可以使用备忘录模式来在一定程度上解决这个问题。</p>
+
+<p>其次， 备份状态可能会占用大量内存。 因此， 有时你需要借助另一种实现方式： 命令无需恢复原始状态， 而是执行反向操作。 反向操作也有代价： 它可能会很难甚至是无法实现。</p>
+
+<h2 id="中介者模式-mediator">中介者模式 Mediator</h2>
+
+<p><strong>中介者模式</strong>是一种行为设计模式， 能让你减少对象之间混乱无序的依赖关系。 该模式会限制对象之间的直接交互， 迫使它们通过一个中介者对象进行合作。</p>
+
+<h3 id="中介者模式适合应用场景">中介者模式适合应用场景</h3>
+
+<p><strong>当一些对象和其他对象紧密耦合以致难以对其进行修改时， 可使用中介者模式。</strong></p>
+
+<p>该模式让你将对象间的所有关系抽取成为一个单独的类， 以使对于特定组件的修改工作独立于其他组件。</p>
+
+<p><strong>当组件因过于依赖其他组件而无法在不同应用中复用时， 可使用中介者模式。</strong></p>
+
+<p>应用中介者模式后， 每个组件不再知晓其他组件的情况。 尽管这些组件无法直接交流， 但它们仍可通过中介者对象进行间接交流。 如果你希望在不同应用中复用一个组件， 则需要为其提供一个新的中介者类。</p>
+
+<p><strong>如果为了能在不同情景下复用一些基本行为， 导致你需要被迫创建大量组件子类时， 可使用中介者模式。</strong></p>
+
+<p>由于所有组件间关系都被包含在中介者中， 因此你无需修改组件就能方便地新建中介者类以定义新的组件合作方式。</p>
+
+<p>## 访问者模式 Visitor</p>
+
+<p><strong>访问者模式</strong>是一种行为设计模式， 它能将算法与其所作用的对象隔离开来。</p>
+
+<p>### 访问者模式适合应用场景</p>
+
+<p><strong>如果你需要对一个复杂对象结构 （例如对象树） 中的所有元素执行某些操作， 可使用访问者模式。</strong></p>
+
+<p>访问者模式通过在访问者对象中为多个目标类提供相同操作的变体， 让你能在属于不同类的一组对象上执行同一操作。</p>
+
+<p><strong>可使用访问者模式来清理辅助行为的业务逻辑。</strong></p>
+
+<p>该模式会将所有非主要的行为抽取到一组访问者类中， 使得程序的主要类能更专注于主要的工作。</p>
+
+<p><strong>当某个行为仅在类层次结构中的一些类中有意义， 而在其他类中没有意义时， 可使用该模式。</strong></p>
+
+<p>你可将该行为抽取到单独的访问者类中， 只需实现接收相关类的对象作为参数的访问者方法并将其他方法留空即可。</p>
+
+<p>## 观察者模式 Observer</p>
+
+<p><strong>观察者模式</strong>是一种行为设计模式， 允许你定义一种订阅机制， 可在对象事件发生时通知多个 “观察” 该对象的其他对象。</p>
+
+<p>### 观察者模式适合应用场景</p>
+
+<p><strong>当一个对象状态的改变需要改变其他对象， 或实际对象是事先未知的或动态变化的时， 可使用观察者模式。</strong></p>
+
+<p>当你使用图形用户界面类时通常会遇到一个问题。 比如， 你创建了自定义按钮类并允许客户端在按钮中注入自定义代码， 这样当用户按下按钮时就会触发这些代码。</p>
+
+<p>观察者模式允许任何实现了订阅者接口的对象订阅发布者对象的事件通知。 你可在按钮中添加订阅机制， 允许客户端通过自定义订阅类注入自定义代码。</p>
+
+<p><strong>当应用中的一些对象必须观察其他对象时， 可使用该模式。 但仅能在有限时间内或特定情况下使用。</strong></p>
+
+<p>订阅列表是动态的， 因此订阅者可随时加入或离开该列表。</p>
+
+        <div id="disqus_container">
+            <class="comment"/>
+<div id="disqus_thread"></div>
+        
+        </div>
+   </div>
+   
+    <div class="sidenav">
+        <h2>Blog</h2>
+        <ul class="artical-list">
+        
+            <li><a href="/behavior-patterns">常用的设计模式之行为模式</a></li>
+        
+            <li><a href="/nginx">前端项目nginx+docker部署配置及子目录部署</a></li>
+        
+            <li><a href="/file-preview">PC+移动端文件预览解决方案（离线无外网）</a></li>
+        
+            <li><a href="/study-record">JS基础学习巩固记录</a></li>
+        
+            <li><a href="/problem">问题汇总记录（1）</a></li>
+        
+            <li><a href="/webpack">webpack原理</a></li>
+        
+            <li><a href="/react-skills">reactjs常用技巧</a></li>
+        
+            <li><a href="/react-communicate">reactjs常用组件沟通</a></li>
+        
+            <li><a href="/react-shouldComponentUpdate">reactjs性能优化之shouldComponentUpdate</a></li>
+        
+            <li><a href="/redux-understand">Redux通俗易懂的理解</a></li>
+        
+            <li><a href="/jquery-plugin">jquery插件封装</a></li>
+        
+            <li><a href="/iframe-orgin">iframe跨域传输数据</a></li>
+        
+        </ul>
+
+        <h2>About Me</h2>
+        <ul class="artical-list">
+        
+            <li><a href="/my-resume">这是我的简历~</a></li>
+        
+        </ul>
+
+    </div>
+</div>
+
+<script src="/js/post.js" type="text/javascript"></script>
+
+
+    <script type="text/javascript">
+        $(function(){
+            $('.home-follow').click(function(e){
+                e.preventDefault();
+                var  contactTxt = $('.home-contact');
+                if(contactTxt.is(':visible')){
+                    contactTxt.slideUp(100);
+                }else{
+                    contactTxt.slideDown(100);
+                }
+            });
+        })
+    </script>
+</body>
+</html>
