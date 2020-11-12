@@ -158,9 +158,21 @@ ENTRYPOINT [“sh”,”-c”,”nginx”]&lt;/p&gt;
 		
 			
 			<item>
-				<title>这是我的简历~</title>
+				<title>My Resume</title>
 				
-					<description>&lt;h1 id=&quot;我是谁&quot;&gt;我是谁?&lt;/h1&gt;
+					<description>&lt;!--
+ * @Descripttion: 
+ * @Author: hope
+ * @Date: 2019-12-04 15:32:25
+ * @LastEditors: hope
+ * @LastEditTime: 2020-11-12 15:38:42
+--&gt;
+&lt;hr /&gt;
+&lt;p&gt;layout:     post
+title:      这是我的简历~
+category: dump
+description: ‘’
+—&lt;/p&gt;
 </description>
 				
 				<pubDate>Tue, 30 Jan 2018 00:00:00 +0800</pubDate>

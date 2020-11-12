@@ -1,4 +1,4 @@
-I"�<div class="index-content dump">
+I"<div class="index-content dump">
     <div class="section">
         <ul class="artical-cate">
             <li><a href="/"><span>Blog</span></a></li>
@@ -9,13 +9,6 @@
         <div class="cate-bar"><span id="cateBar"></span></div>
 
         <ul class="artical-list">
-        
-            <li>
-                <h2>
-                    <a href="/my-resume">这是我的简历~</a>
-                </h2>
-                <div class="title-desc"></div>
-            </li>
         
         </ul>
     </div>
