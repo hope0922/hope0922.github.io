@@ -1,0 +1,71 @@
+I"�<p>写代码的过程中，发现在子元素用 stopPropagation 阻止绑定在 document 上的事件的时候，是没办法做到的，只可以阻止父级绑定的事件的触发。</p>
+
+<p>关于这个问题的解释，网上五花八门，有些将其归结为是由于事件委托的原因，我自己尝试了之后发现，其实原生 document 绑定的事件是最后才执行的</p>
+
+<pre><code class="language-javascript">class ExampleApplication extends React.Component {
+  componentDidMount() {
+    document.addEventListener("click", () =&gt; {
+      alert("document click");
+    });
+  }
+
+  outClick(e) {
+    console.log(e.currentTarget);
+    alert("outClick");
+  }
+
+  onClick(e) {
+    console.log(e.currentTarget);
+    alert("onClick");
+    e.stopPropagation();
+  }
+  render() {
+    return (
+      &lt;div onClick={this.outClick}&gt;
+        &lt;button onClick={this.onClick}&gt; 测试click事件 &lt;/button&gt;
+      &lt;/div&gt;
+    );
+  }
+}
+</code></pre>
+
+<p>其实从上面例子的输出： 由’onClick’,再到’document click’可知，其实原生 document 上绑定的事件时最后执行的，所以并不是因为 document 收到事件快慢的原因而导致这个问题。</p>
+
+<p>最后查阅资料后发现 <strong>出现上述 bug 的主要原因是混用浏览器原生事件跟 React 合成事件</strong></p>
+
+<h4 id="react-有自己的一套事件处理机制它会将所有的事件都绑定在-document-上然后再用-dispatchevent-统一分发这时候分发的是合成事件而-onclicke这时候拿到的-e-其实是合成事件只能阻止合成事件的冒泡">React 有自己的一套事件处理机制，它会将所有的事件都绑定在 document 上，然后再用 dispatchEvent 统一分发，这时候分发的是合成事件。而 onClick(e)这时候拿到的 e 其实是合成事件，只能阻止合成事件的冒泡。</h4>
+
+<pre><code class="language-javascript">class ExampleApplication extends React.Component {
+  componentDidMount() {
+    document.addEventListener("click", () =&gt; {
+      alert("document click");
+    });
+    document.getElementById("div1").addEventListener("click", () =&gt; {
+      alert("原生outClick");
+    });
+  }
+
+  outClick(e) {
+    console.log(e.currentTarget);
+    alert("合成outClick");
+  }
+
+  onClick(e) {
+    console.log(e.currentTarget);
+    alert("onClick");
+    e.stopPropagation();
+  }
+  render() {
+    return (
+      &lt;div id="div1" onClick={this.outClick}&gt;
+        &lt;button onClick={this.onClick}&gt; 测试click事件 &lt;/button&gt;
+      &lt;/div&gt;
+    );
+  }
+}
+</code></pre>
+
+<p>做了点小改动，就是外层的div绑定的函数用原生的方式跟jsx的方式都绑定一次，所以最终的输出为</p>
+<h4 id="原生outclick-onclickdocument-click">‘原生outClick’, ‘onClick’,’document click’</h4>
+<h2 id="解决方法-enativeeventstopimmediatepropagation-使绑定在document的其他事件不再触发">解决方法 e.nativeEvent.stopImmediatePropagation(); 使绑定在document的其他事件不再触发</h2>
+:ET

@@ -14,7 +14,7 @@
     * Revised:        hope0922
     -->
     <meta charset="utf-8" />
-    <title>PC+移动端文件预览解决方案（离线无外网） | hope0922's blog</title>
+    <title>React stopPropagation 无效 | hope0922's blog</title>
     <meta name="author" content="Mukosame" />
     <meta name="renderer" content="webkit">
     <meta name="description" content="Everything about Mukosame" />
@@ -53,42 +53,78 @@
 
 <div id="content">
     <div class="entry">
-        <h1 class="entry-title"><a href="/file-preview" title="PC+移动端文件预览解决方案（离线无外网）">PC+移动端文件预览解决方案（离线无外网）</a></h1>
-        <p class="entry-date">2020-05-26</p>
-        <h3 id="pc移动端文件预览解决方案">PC+移动端文件预览解决方案</h3>
+        <h1 class="entry-title"><a href="/react-event" title="React stopPropagation 无效">React stopPropagation 无效</a></h1>
+        <p class="entry-date">2021-04-01</p>
+        <p>写代码的过程中，发现在子元素用 stopPropagation 阻止绑定在 document 上的事件的时候，是没办法做到的，只可以阻止父级绑定的事件的触发。</p>
 
-<p>近期项目中碰到了文件预览的功能，包括office、文本及图片文件。文本和图片预览都是好解决，但是office的excel、ppt和word
-本身浏览器是不支持预览加载的。在线预览的话，微软官方的在线预览接口是可以实现office的预览，但时项目部署不支持外网访问，
-那么这条路也是走不通了。最后只能后台通过openoffice将上传的文件转成pdf格式，再传给前端实现预览。前端pdf预览浏览器是默认
-支持的，但是移动端webview不支持pdf的预览。那就只能通过pdfh5插件转成svg或者canvas进行预览，canvas的性能更好一点。后续
-又出现一个问题就是大文件pdf在webview用第三方库渲染成canvas预览时，会有内存溢出的情况出现导致app闪退。最后移动端只能改成
-用安卓原生的方法预览，性能也大大提升。</p>
+<p>关于这个问题的解释，网上五花八门，有些将其归结为是由于事件委托的原因，我自己尝试了之后发现，其实原生 document 绑定的事件是最后才执行的</p>
 
-<h3 id="2020-8-13更新">2020-8-13更新</h3>
-
-<p>因为数据中台不支持文件地址的直接返回，而是返回二进制的文件流。文件预览方案相应的需要作出变化。</p>
-
-<pre><code class="language-javascript">//初始方案将返回的二进制流blob对象赋值给img、video及iframe进行预览
-
-window.URL.createObjectURL(blob);
-</code></pre>
-
-<p>图片和视频是正常的，赋值给iframe一直预览不出来pdf、txt和html文件
-查询资料后发现iframe不能根据blob对象的地址判断文件是什么类型从而进行预览</p>
-
-<p>所以根据文件类型给blob对象加上对应的type</p>
-<pre><code class="language-javascript">    blob = new Blob([blob], {
-        type: 'application/pdf;chartset=UTF-8'
-        //type: 'text/html;chartset=UTF-8'
+<pre><code class="language-javascript">class ExampleApplication extends React.Component {
+  componentDidMount() {
+    document.addEventListener("click", () =&gt; {
+      alert("document click");
     });
+  }
+
+  outClick(e) {
+    console.log(e.currentTarget);
+    alert("outClick");
+  }
+
+  onClick(e) {
+    console.log(e.currentTarget);
+    alert("onClick");
+    e.stopPropagation();
+  }
+  render() {
+    return (
+      &lt;div onClick={this.outClick}&gt;
+        &lt;button onClick={this.onClick}&gt; 测试click事件 &lt;/button&gt;
+      &lt;/div&gt;
+    );
+  }
+}
 </code></pre>
 
-<p>再次预览，一切正常，完美</p>
+<p>其实从上面例子的输出： 由’onClick’,再到’document click’可知，其实原生 document 上绑定的事件时最后执行的，所以并不是因为 document 收到事件快慢的原因而导致这个问题。</p>
 
-<p>但是这种方式需要等待二进制流数据的返回才能进行后续的预览，一般只要把接口给浏览器，浏览器会自动识别文件进行预览。</p>
+<p>最后查阅资料后发现 <strong>出现上述 bug 的主要原因是混用浏览器原生事件跟 React 合成事件</strong></p>
 
-<p>和后端沟通后 在请求二进制流的接口后带上文件名称和后缀，然后再给iframe，这样就可以不需要等待二进制流的返回就可以直接预览，
-浏览器也会自动识别出现等待的loading界面，效果更好。</p>
+<h4 id="react-有自己的一套事件处理机制它会将所有的事件都绑定在-document-上然后再用-dispatchevent-统一分发这时候分发的是合成事件而-onclicke这时候拿到的-e-其实是合成事件只能阻止合成事件的冒泡">React 有自己的一套事件处理机制，它会将所有的事件都绑定在 document 上，然后再用 dispatchEvent 统一分发，这时候分发的是合成事件。而 onClick(e)这时候拿到的 e 其实是合成事件，只能阻止合成事件的冒泡。</h4>
+
+<pre><code class="language-javascript">class ExampleApplication extends React.Component {
+  componentDidMount() {
+    document.addEventListener("click", () =&gt; {
+      alert("document click");
+    });
+    document.getElementById("div1").addEventListener("click", () =&gt; {
+      alert("原生outClick");
+    });
+  }
+
+  outClick(e) {
+    console.log(e.currentTarget);
+    alert("合成outClick");
+  }
+
+  onClick(e) {
+    console.log(e.currentTarget);
+    alert("onClick");
+    e.stopPropagation();
+  }
+  render() {
+    return (
+      &lt;div id="div1" onClick={this.outClick}&gt;
+        &lt;button onClick={this.onClick}&gt; 测试click事件 &lt;/button&gt;
+      &lt;/div&gt;
+    );
+  }
+}
+</code></pre>
+
+<p>做了点小改动，就是外层的div绑定的函数用原生的方式跟jsx的方式都绑定一次，所以最终的输出为</p>
+<h4 id="原生outclick-onclickdocument-click">‘原生outClick’, ‘onClick’,’document click’</h4>
+<h2 id="解决方法-enativeeventstopimmediatepropagation-使绑定在document的其他事件不再触发">解决方法 e.nativeEvent.stopImmediatePropagation(); 使绑定在document的其他事件不再触发</h2>
 
         <div id="disqus_container">
             <class="comment"/>
