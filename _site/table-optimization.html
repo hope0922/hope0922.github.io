@@ -1,0 +1,164 @@
+<!--
+ * @Descripttion: 
+ * @Author: hope
+ * @Date: 2019-12-04 15:32:25
+ * @LastEditors: hope
+ * @LastEditTime: 2020-11-12 15:50:17
+-->
+<!DOCTYPE html>
+<html>
+<head>
+    <!--
+    * Author:         BeiYuu
+    * Revised:        Mukosame
+    * Revised:        hope0922
+    -->
+    <meta charset="utf-8" />
+    <title>react-hooks 可编辑table性能优化 | hope0922's blog</title>
+    <meta name="author" content="Mukosame" />
+    <meta name="renderer" content="webkit">
+    <meta name="description" content="Everything about Mukosame" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+    <link rel="stylesheet" href="/css/default.css" type="text/css" />
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="alternate" type="application/atom+xml" title="Recent Entries" href="/atom.xml" />
+    <link rel="alternatecss" type="application/rss+xml" title="hope0922's Blog" href="http://hope0922.github.io/feed.xml">
+    <script src="/js/jquery-1.7.1.min.js" type="text/javascript"></script>
+</head>
+<body>
+
+    <div class="home-menu">
+        <div class="home-icon-con">
+            <a class="home-menu-icon" href="/">Hope0922</a>
+            <a class="home-follow" href="#" title="Contact Me">+</a>
+        </div>
+        <div class="home-contact" style="width:136px;height: 20px; font-size: 12px; overflow: hidden;text-overflow: ellipsis;white-space: nowrap;" title="e-mail:hopexie0922@.163.com">
+            hopexie0922@.163.com
+        </div>
+        <img style="display: none;" src='../images/blog.jpeg'/>
+        <img style="display: none;" src='../images/dump.jpeg'/>
+        <img style="display: none;" src='../images/prohect.jpeg'/>
+    </div>
+
+    <link rel="stylesheet" href="/js/prettify/prettify.css" />
+<style type="text/css">
+    body { background:#e8e8e8; }
+    @media screen and (max-width: 750px){
+        body { background:#fff; }
+    }
+    @media screen and (max-width: 1020px){
+        body { background:#fff; }
+    }
+</style>
+
+<div id="content">
+    <div class="entry">
+        <h1 class="entry-title"><a href="/table-optimization" title="react-hooks 可编辑table性能优化">react-hooks 可编辑table性能优化</a></h1>
+        <p class="entry-date">2021-05-17</p>
+        <p>在最近项目中，自己基于 antd 开发了一个可编辑 table 的组件（双击单元格可编辑，支持单元格直接展示下拉框勾选框等组件），在正常使用，数据量少情况下
+是没有问题的效果也挺好，但是在大数据量的时候，比如说 100 条数据的时候，在单元格失焦保存的时候会有明显的延迟，在首屏加载的时候也是出现了要等挺久
+才能渲染出组件的问题。</p>
+
+<h4 id="1-这个组件我是用的-react-hooks-写的我在想是不是因为-hooks-频繁渲染的原因导致了我组件的卡顿">1. 这个组件我是用的 react-hooks 写的，我在想是不是因为 hooks 频繁渲染的原因导致了我组件的卡顿。</h4>
+
+<h4 id="2-调试代码后发现在首次加载或者筛选数据的时候因为向-table-组件传入了我的-loading-的-state-状态每当-loading-的状态改变就会重新渲染一次我的-table-组件从-false-到-true-再到得到后台数据后的渲染一共加载了-3-次我的-table-组件而我的-table-组件因为某些单元格直接展示下拉框和勾选框的原因100-条数据可能会渲染-500-个类似的直接展示的组件导致卡顿">2. 调试代码后发现，在首次加载或者筛选数据的时候，因为向 table 组件传入了我的 loading 的 state 状态，每当 loading 的状态改变，就会重新渲染一次我的 table 组件。从 false 到 true 再到得到后台数据后的渲染一共加载了 3 次我的 table 组件，而我的 table 组件因为某些单元格直接展示下拉框和勾选框的原因，100 条数据可能会渲染 500 个类似的直接展示的组件，导致卡顿。</h4>
+
+<h4 id="3-loading-的-state-状态有问题那么传入-table-组件的所有-props-属性的更改都会导致我的组件的渲染所以我将-loading-状态提出到了-table-组件之外在外层进行-loading-状态的更新这样首次加载和筛选的渲染只会渲染从后台拿到数据更新的-1-次从-3-次到-1-次渲染明显性能好了很多其他传入-table-组件的属性在外层用-usememo-对-table-组件进行缓存添加必要的数据的依赖项在依赖项发生更新时再去重新渲染最新的组件这样改了之后性能确实好了很多但是还是操作起来还是会有延迟">3. loading 的 state 状态有问题，那么传入 table 组件的所有 props 属性的更改都会导致我的组件的渲染。所以我将 loading 状态提出到了 table 组件之外，在外层进行 loading 状态的更新，这样，首次加载和筛选的渲染只会渲染从后台拿到数据更新的 1 次，从 3 次到 1 次渲染，明显性能好了很多。其他传入 table 组件的属性，在外层用 useMemo 对 table 组件进行缓存，添加必要的数据的依赖项，在依赖项发生更新时再去重新渲染最新的组件。这样改了之后，性能确实好了很多。但是还是操作起来还是会有延迟。</h4>
+
+<h4 id="4-继续调试代码-发现我在操作一个单元格的数据后用-usereducer-去更新-table-的数据是更新了整个-table-的数据导致了整个可编辑-table-组件的渲染500-个表单组件的渲染肯定会造成一定的性能卡顿和延迟所以我想做的是在我操作单元格的数据的时候只去渲染单元格的自定义-cell-组件而不是-table-所有的单元格组件">4. 继续调试代码， 发现我在操作一个单元格的数据后，用 usereducer 去更新 table 的数据，是更新了整个 table 的数据，导致了整个可编辑 table 组件的渲染，500 个表单组件的渲染，肯定会造成一定的性能卡顿和延迟。所以，我想做的是在我操作单元格的数据的时候，只去渲染单元格的自定义 cell 组件，而不是 table 所有的单元格组件。</h4>
+
+<h4 id="5-在看了-antd-的文档后确实发现有一个-shouldcellupdate-的属性用来自己控制对应单元格是否需要更新在我的理解应该就是每个单元格组件的-shouldcomponentupdate根据前后两次的值是否一致来控制单元格组件的更新渲染添加之歌属性后个果然性能大幅提升不再延迟卡顿了">5. 在看了 antd 的文档后，确实发现有一个 shouldCellUpdate 的属性，用来自己控制对应单元格是否需要更新，在我的理解应该就是每个单元格组件的 shouldComponentUpdate，根据前后两次的值是否一致来控制单元格组件的更新渲染。添加之歌属性后个，果然性能大幅提升，不再延迟卡顿了</h4>
+
+<pre><code class="language-javascript">//缓存DataTable组件 防止重复渲染
+const DataTableComponent = useMemo(
+  () =&gt; (
+    &lt;DataTable
+      fromPage={PageRouterConfig.ORDER_PAGE}
+      noScroll
+      hiddenSummary
+      tableColumns={columns}
+      dispatch={dispatch}
+      table={state.table}
+      tableKey={"table"}
+      onlyCheck={onlyCheck}
+      controlUpdate
+    /&gt;
+  ),
+  [columns, state.table, onlyCheck]
+);
+</code></pre>
+
+<pre><code class="language-javascript">  //控制单元格是否渲染 大数据性能优化
+  shouldCellUpdate(record, prevRecord) =&gt; {
+  },
+</code></pre>
+
+        <div id="disqus_container">
+            <class="comment"/>
+<div id="disqus_thread"></div>
+        
+        </div>
+   </div>
+   
+    <div class="sidenav">
+        <h2>Blog</h2>
+        <ul class="artical-list">
+        
+            <li><a href="/table-optimization">react-hooks 可编辑table性能优化</a></li>
+        
+            <li><a href="/react-event">React stopPropagation 无效</a></li>
+        
+            <li><a href="/behavior-patterns">常用的设计模式之行为模式</a></li>
+        
+            <li><a href="/nginx">前端项目nginx+docker部署配置及子目录部署</a></li>
+        
+            <li><a href="/file-preview">PC+移动端文件预览解决方案（离线无外网）</a></li>
+        
+            <li><a href="/study-record">JS基础学习巩固记录</a></li>
+        
+            <li><a href="/problem">问题汇总记录（1）</a></li>
+        
+            <li><a href="/webpack">webpack原理</a></li>
+        
+            <li><a href="/react-skills">reactjs常用技巧</a></li>
+        
+            <li><a href="/react-communicate">reactjs常用组件沟通</a></li>
+        
+            <li><a href="/react-shouldComponentUpdate">reactjs性能优化之shouldComponentUpdate</a></li>
+        
+            <li><a href="/redux-understand">Redux通俗易懂的理解</a></li>
+        
+            <li><a href="/jquery-plugin">jquery插件封装</a></li>
+        
+            <li><a href="/iframe-orgin">iframe跨域传输数据</a></li>
+        
+        </ul>
+
+        <h2>About Me</h2>
+        <ul class="artical-list">
+        
+            <li><a href="/my-resume">这是我的简历~</a></li>
+        
+        </ul>
+
+    </div>
+</div>
+
+<script src="/js/post.js" type="text/javascript"></script>
+
+
+    <script type="text/javascript">
+        $(function(){
+            $('.home-follow').click(function(e){
+                e.preventDefault();
+                var  contactTxt = $('.home-contact');
+                if(contactTxt.is(':visible')){
+                    contactTxt.slideUp(100);
+                }else{
+                    contactTxt.slideDown(100);
+                }
+            });
+        })
+    </script>
+</body>
+</html>

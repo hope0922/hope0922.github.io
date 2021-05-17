@@ -43,6 +43,7 @@ class ExampleApplication extends React.Component {
 
 #### React 有自己的一套事件处理机制，它会将所有的事件都绑定在 document 上，然后再用 dispatchEvent 统一分发，这时候分发的是合成事件。而 onClick(e)这时候拿到的 e 其实是合成事件，只能阻止合成事件的冒泡。
 
+
 ```javascript
 class ExampleApplication extends React.Component {
   componentDidMount() {
