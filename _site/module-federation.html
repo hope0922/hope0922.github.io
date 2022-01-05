@@ -1,0 +1,178 @@
+<!--
+ * @Descripttion: 
+ * @Author: hope
+ * @Date: 2019-12-04 15:32:25
+ * @LastEditors: hope
+ * @LastEditTime: 2020-11-12 15:50:17
+-->
+<!DOCTYPE html>
+<html>
+<head>
+    <!--
+    * Author:         BeiYuu
+    * Revised:        Mukosame
+    * Revised:        hope0922
+    -->
+    <meta charset="utf-8" />
+    <title>webpack5 模块联邦 | hope0922's blog</title>
+    <meta name="author" content="Mukosame" />
+    <meta name="renderer" content="webkit">
+    <meta name="description" content="Everything about Mukosame" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+    <link rel="stylesheet" href="/css/default.css" type="text/css" />
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="alternate" type="application/atom+xml" title="Recent Entries" href="/atom.xml" />
+    <link rel="alternatecss" type="application/rss+xml" title="hope0922's Blog" href="http://localhost:4000/feed.xml">
+    <script src="/js/jquery-1.7.1.min.js" type="text/javascript"></script>
+</head>
+<body>
+
+    <div class="home-menu">
+        <div class="home-icon-con">
+            <a class="home-menu-icon" href="/">Hope0922</a>
+            <a class="home-follow" href="#" title="Contact Me">+</a>
+        </div>
+        <div class="home-contact" style="width:136px;height: 20px; font-size: 12px; overflow: hidden;text-overflow: ellipsis;white-space: nowrap;" title="e-mail:hopexie0922@.163.com">
+            hopexie0922@.163.com
+        </div>
+        <img style="display: none;" src='../images/blog.jpeg'/>
+        <img style="display: none;" src='../images/dump.jpeg'/>
+        <img style="display: none;" src='../images/prohect.jpeg'/>
+    </div>
+
+    <link rel="stylesheet" href="/js/prettify/prettify.css" />
+<style type="text/css">
+    body { background:#e8e8e8; }
+    @media screen and (max-width: 750px){
+        body { background:#fff; }
+    }
+    @media screen and (max-width: 1020px){
+        body { background:#fff; }
+    }
+</style>
+
+<div id="content">
+    <div class="entry">
+        <h1 class="entry-title"><a href="/module-federation" title="webpack5 模块联邦">webpack5 模块联邦</a></h1>
+        <p class="entry-date">2022-01-05</p>
+        <h3 id="webpack5-使用方式">webpack5 使用方式</h3>
+
+<blockquote>
+  <p>项目一</p>
+</blockquote>
+
+<pre><code class="language-javascript">//在webpack配置中以插件的形式引入
+  const ModuleFederationPlugin = require("webpack/lib/container/ModuleFederationPlugin");
+  plugins: [
+    new ModuleFederationPlugin({
+      name: "app_one_remote",//当前项目名称,需全局唯一
+      remotes: {
+        app_two_remote: //引用远程runtime状态的项目名称和地址映射到当前项目
+          "app_two_remote@http://192.168.9.35:3001/remoteEntry.js",
+      },
+      shared: ["react", "react-dom"],//是非常重要的参数，制定了这个参数，可以让远程加载的模块对应依赖改为使用本地项目的 React 或 ReactDOM。
+    }),
+  ],
+</code></pre>
+
+<blockquote>
+  <p>项目二</p>
+</blockquote>
+
+<pre><code class="language-javascript">//项目二webpack 插件选项配置
+  plugins: [
+    new ModuleFederationPlugin({
+      name: "app_two_remote",//当前项目名称,需全局唯一
+      filename: "remoteEntry.js",//整个远程打包文件
+      exposes: {
+        "./Search": "./src/Search",//导出的Search模块，只有在此申明的模块才可以作为远程依赖被使用
+      },
+      shared: ["react", "react-dom"],
+    }),
+  ],
+</code></pre>
+
+<h4 id="这里要注意需要用到动态导入入口文件的方法因为-webpack-在静态编译阶段时由于引用了远程的异步包会存在还没加载远程包无法引用到对应包的情况">这里要注意需要用到动态导入入口文件的方法，因为 webpack 在静态编译阶段时，由于引用了远程的异步包，会存在还没加载远程包无法引用到对应包的情况</h4>
+
+<pre><code class="language-javascript">import("./test"); //首页入口文件用动态import方式方便webpack编译
+</code></pre>
+
+<h3 id="基于模块联邦可以实践一下和后端的微服务一样前端微应用的互相引用这样可以减少很多重复业务逻辑和组件的开发">基于模块联邦可以实践一下和后端的微服务一样前端微应用的互相引用，这样可以减少很多重复业务逻辑和组件的开发。</h3>
+
+        <div id="disqus_container">
+            <class="comment"/>
+<div id="disqus_thread"></div>
+        
+        </div>
+   </div>
+   
+    <div class="sidenav">
+        <h2>Blog</h2>
+        <ul class="artical-list">
+        
+            <li><a href="/module-federation">webpack5 模块联邦</a></li>
+        
+            <li><a href="/webpack-plugin">webpack 插件的基本原理</a></li>
+        
+            <li><a href="/react-fiber">react-fiber</a></li>
+        
+            <li><a href="/table-optimization">react-hooks 可编辑 table 性能优化</a></li>
+        
+            <li><a href="/react-event">React stopPropagation 无效</a></li>
+        
+            <li><a href="/react-scaffolding">react项目初始化脚手架</a></li>
+        
+            <li><a href="/behavior-patterns">常用的设计模式之行为模式</a></li>
+        
+            <li><a href="/nginx">前端项目nginx+docker部署配置及子目录部署</a></li>
+        
+            <li><a href="/file-preview">PC+移动端文件预览解决方案（离线无外网）</a></li>
+        
+            <li><a href="/study-record">JS基础学习巩固记录</a></li>
+        
+            <li><a href="/problem">问题汇总记录（1）</a></li>
+        
+            <li><a href="/webpack">webpack原理</a></li>
+        
+            <li><a href="/react-skills">reactjs常用技巧</a></li>
+        
+            <li><a href="/react-communicate">reactjs常用组件沟通</a></li>
+        
+            <li><a href="/react-shouldComponentUpdate">reactjs性能优化之shouldComponentUpdate</a></li>
+        
+            <li><a href="/redux-understand">Redux通俗易懂的理解</a></li>
+        
+            <li><a href="/jquery-plugin">jquery插件封装</a></li>
+        
+            <li><a href="/iframe-orgin">iframe跨域传输数据</a></li>
+        
+        </ul>
+
+        <h2>About Me</h2>
+        <ul class="artical-list">
+        
+            <li><a href="/my-resume">这是我的简历~</a></li>
+        
+        </ul>
+
+    </div>
+</div>
+
+<script src="/js/post.js" type="text/javascript"></script>
+
+
+    <script type="text/javascript">
+        $(function(){
+            $('.home-follow').click(function(e){
+                e.preventDefault();
+                var  contactTxt = $('.home-contact');
+                if(contactTxt.is(':visible')){
+                    contactTxt.slideUp(100);
+                }else{
+                    contactTxt.slideDown(100);
+                }
+            });
+        })
+    </script>
+</body>
+</html>

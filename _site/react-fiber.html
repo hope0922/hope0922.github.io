@@ -1,0 +1,194 @@
+<!--
+ * @Descripttion: 
+ * @Author: hope
+ * @Date: 2019-12-04 15:32:25
+ * @LastEditors: hope
+ * @LastEditTime: 2020-11-12 15:50:17
+-->
+<!DOCTYPE html>
+<html>
+<head>
+    <!--
+    * Author:         BeiYuu
+    * Revised:        Mukosame
+    * Revised:        hope0922
+    -->
+    <meta charset="utf-8" />
+    <title>react-fiber | hope0922's blog</title>
+    <meta name="author" content="Mukosame" />
+    <meta name="renderer" content="webkit">
+    <meta name="description" content="Everything about Mukosame" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+    <link rel="stylesheet" href="/css/default.css" type="text/css" />
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="alternate" type="application/atom+xml" title="Recent Entries" href="/atom.xml" />
+    <link rel="alternatecss" type="application/rss+xml" title="hope0922's Blog" href="http://localhost:4000/feed.xml">
+    <script src="/js/jquery-1.7.1.min.js" type="text/javascript"></script>
+</head>
+<body>
+
+    <div class="home-menu">
+        <div class="home-icon-con">
+            <a class="home-menu-icon" href="/">Hope0922</a>
+            <a class="home-follow" href="#" title="Contact Me">+</a>
+        </div>
+        <div class="home-contact" style="width:136px;height: 20px; font-size: 12px; overflow: hidden;text-overflow: ellipsis;white-space: nowrap;" title="e-mail:hopexie0922@.163.com">
+            hopexie0922@.163.com
+        </div>
+        <img style="display: none;" src='../images/blog.jpeg'/>
+        <img style="display: none;" src='../images/dump.jpeg'/>
+        <img style="display: none;" src='../images/prohect.jpeg'/>
+    </div>
+
+    <link rel="stylesheet" href="/js/prettify/prettify.css" />
+<style type="text/css">
+    body { background:#e8e8e8; }
+    @media screen and (max-width: 750px){
+        body { background:#fff; }
+    }
+    @media screen and (max-width: 1020px){
+        body { background:#fff; }
+    }
+</style>
+
+<div id="content">
+    <div class="entry">
+        <h1 class="entry-title"><a href="/react-fiber" title="react-fiber">react-fiber</a></h1>
+        <p class="entry-date">2022-01-01</p>
+        <h3 id="react-fiber-fiber-架构就是用-异步的方式解决旧版本-同步递归导致的性能问题">React Fiber 【Fiber 架构就是用 异步的方式解决旧版本 同步递归导致的性能问题】</h3>
+
+<p>旧版 React 通过递归的方式进行渲染，使用的是 【JS 引擎自身的函数调用栈】，它会一直执行到栈空为止。
+Fiber 实现了自己的【组件调用栈】，它以链表的形式遍历组件树，可以灵活的暂停、继续和丢弃执行的任务。
+实现方式是使用了浏览器的 requestIdleCallback 这一 API:
+将 计算任务 分给成一个个小任务，分批完成，在完成一个小任务后，将控制权还给浏览器，让浏览器利用间隙进行 UI 渲染</p>
+
+<h3 id="react-fiber-出现的背景">React Fiber 出现的背景</h3>
+
+<p>当页面元素很多，且需要频繁刷新的场景下，浏览器页面会出现卡顿现象，原因是因为 计算任务 持续占据着主线程，从而阻塞了 UI 渲染</p>
+
+<h3 id="react-框架内部的运作可以分为-3-层">React 框架内部的运作可以分为 3 层</h3>
+
+<ul>
+  <li>Virtual DOM 层 –&gt; 描述页面长什么样</li>
+  <li>Reconciler 层 –&gt; 负责调用组件生命周期方法，进行 Diff 运算等。</li>
+  <li>Renderer 层 –&gt; 根据不同的平台，渲染出相应的页面，比较常见的是 ReactDOM 和 ReactNative</li>
+</ul>
+
+<pre><code class="language-javascript"> *
+ * Fiber 其实指的是一种数据结构，它可以用一个纯 JS 对象来表示
+ *
+ * const fiber = {
+        stateNode,    // 节点实例
+        child,        // 子节点
+        sibling,      // 兄弟节点
+        return,       // 父节点
+    }
+</code></pre>
+
+<h3 id="fiber-reconciler-的-2-个阶段">Fiber Reconciler 的 2 个阶段:</h3>
+
+<ul>
+  <li>阶段一，生成 Fiber 树【本质来说是一个链表】，得出需要更新的节点信息。这一步是一个渐进的过程，可以被打断。
+【让优先级更高的任务先执行，从框架层面大大降低了页面掉帧的概率】
+    <ul>
+      <li>阶段一有两颗树，Virtual DOM 树和 Fiber 树，Fiber 树是在 Virtual DOM 树的基础上通过额外信息生成的。
+它每生成一个新节点，就会将控制权还给浏览器，如果浏览器没有更高级别的任务要执行，则继续构建；反之则会丢弃 正在生成的 Fiber 树，等空闲的时候再重新执行一遍</li>
+    </ul>
+  </li>
+  <li>阶段二，将需要更新的节点一次过批量更新，这个过程不能被打断</li>
+</ul>
+
+<h3 id="v16-版本之前栈调和stack-reconciler--v16-版本之后-fiber-reconciler">【V16 版本之前】栈调和（Stack reconciler） –&gt; 【V16 版本之后】 Fiber reconciler</h3>
+
+<p>React diff 将传统 diff 算法的复杂度 O(n^3) 复杂度的问题转换成 O(n) 复杂度的问题
+React Diff 三大策略: 【将 Virtual DOM 树转换成 actual DOM 树的最少操作的过程称为 协调（Reconciliaton）】</p>
+
+<ul>
+  <li>1.tree diff: 【Web UI 中 DOM 节点跨层级的移动操作特别少，可以忽略不计】
+    <ul>
+      <li>React 对 Virtual DOM 树进行层级控制，只会对相同层级的 DOM 节点进行比较，即同一个父元素下的所有子节点，</li>
+      <li>当发现节点已经不存在了，则会删除掉该节点下所有的子节点，不会再进行比较。</li>
+      <li>这样只需要对 DOM 树进行一次遍历，就可以完成整个树的比较。复杂度变为 O(n);</li>
+    </ul>
+  </li>
+  <li>2.component diff: 【拥有相同类的两个组件 生成相似的树形结构,拥有不同类的两个组件 生成不同的树形结构】</li>
+  <li>3.element diff: 【对于同一层级的一组子节点，通过唯一 id 区分】 当节点属于同一层级：插入、移动、删除 【设置唯一 key 的策略】</li>
+</ul>
+
+        <div id="disqus_container">
+            <class="comment"/>
+<div id="disqus_thread"></div>
+        
+        </div>
+   </div>
+   
+    <div class="sidenav">
+        <h2>Blog</h2>
+        <ul class="artical-list">
+        
+            <li><a href="/module-federation">webpack5 模块联邦</a></li>
+        
+            <li><a href="/webpack-plugin">webpack 插件的基本原理</a></li>
+        
+            <li><a href="/react-fiber">react-fiber</a></li>
+        
+            <li><a href="/table-optimization">react-hooks 可编辑 table 性能优化</a></li>
+        
+            <li><a href="/react-event">React stopPropagation 无效</a></li>
+        
+            <li><a href="/react-scaffolding">react项目初始化脚手架</a></li>
+        
+            <li><a href="/behavior-patterns">常用的设计模式之行为模式</a></li>
+        
+            <li><a href="/nginx">前端项目nginx+docker部署配置及子目录部署</a></li>
+        
+            <li><a href="/file-preview">PC+移动端文件预览解决方案（离线无外网）</a></li>
+        
+            <li><a href="/study-record">JS基础学习巩固记录</a></li>
+        
+            <li><a href="/problem">问题汇总记录（1）</a></li>
+        
+            <li><a href="/webpack">webpack原理</a></li>
+        
+            <li><a href="/react-skills">reactjs常用技巧</a></li>
+        
+            <li><a href="/react-communicate">reactjs常用组件沟通</a></li>
+        
+            <li><a href="/react-shouldComponentUpdate">reactjs性能优化之shouldComponentUpdate</a></li>
+        
+            <li><a href="/redux-understand">Redux通俗易懂的理解</a></li>
+        
+            <li><a href="/jquery-plugin">jquery插件封装</a></li>
+        
+            <li><a href="/iframe-orgin">iframe跨域传输数据</a></li>
+        
+        </ul>
+
+        <h2>About Me</h2>
+        <ul class="artical-list">
+        
+            <li><a href="/my-resume">这是我的简历~</a></li>
+        
+        </ul>
+
+    </div>
+</div>
+
+<script src="/js/post.js" type="text/javascript"></script>
+
+
+    <script type="text/javascript">
+        $(function(){
+            $('.home-follow').click(function(e){
+                e.preventDefault();
+                var  contactTxt = $('.home-contact');
+                if(contactTxt.is(':visible')){
+                    contactTxt.slideUp(100);
+                }else{
+                    contactTxt.slideDown(100);
+                }
+            });
+        })
+    </script>
+</body>
+</html>
