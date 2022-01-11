@@ -8,6 +8,19 @@
 		
 			
 			<item>
+				<title>前端 CI/CD 规范</title>
+				
+					<description>&lt;h3 id=&quot;前端-cicd-规范&quot;&gt;前端 CI/CD 规范&lt;/h3&gt;
+</description>
+				
+				<pubDate>Tue, 11 Jan 2022 00:00:00 +0800</pubDate>
+				<link>http://hope0922.github.io/fonted-cicd</link>
+				<guid isPermaLink="true">http://hope0922.github.io/fonted-cicd</guid>
+			</item>
+			
+		
+			
+			<item>
 				<title>webpack5 模块联邦</title>
 				
 					<description>&lt;h3 id=&quot;webpack5-模块联邦使用方式&quot;&gt;webpack5 模块联邦使用方式&lt;/h3&gt;

@@ -1,4 +1,4 @@
-I"�<div class="index-content blog">
+I"�<div class="index-content blog">
     <div class="section">
         <ul class="artical-cate">
             <li class="on"><a href="/"><span>Blog</span></a></li>
@@ -9,6 +9,11 @@
         <div class="cate-bar"><span id="cateBar"></span></div>
 
         <ul class="artical-list">
+        
+            <li>
+                <h2><a href="/fonted-cicd">前端 CI/CD 规范</a></h2>
+                <div class="title-desc">前端 CI/CD 在自己项目中的尝试</div>
+            </li>
         
             <li>
                 <h2><a href="/module-federation">webpack5 模块联邦</a></h2>
