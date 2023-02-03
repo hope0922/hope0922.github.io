@@ -42,6 +42,8 @@ description: webpack5 模块联邦
 
 #### 这里要注意需要用到动态导入入口文件的方法，因为 webpack 在静态编译阶段时，由于引用了远程的异步包，会存在还没加载远程包无法引用到对应包的情况
 
+> 代码演示
+
 ```javascript
 import("./test"); //首页入口文件用动态import方式方便webpack编译
 ```

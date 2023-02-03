@@ -14,7 +14,7 @@
     * Revised:        hope0922
     -->
     <meta charset="utf-8" />
-    <title>webpack 插件的基本原理 | hope0922's blog</title>
+    <title>基于antd3的组件的rollup兼容性打包 | hope0922's blog</title>
     <meta name="author" content="Mukosame" />
     <meta name="renderer" content="webkit">
     <meta name="description" content="Everything about Mukosame" />
@@ -53,128 +53,127 @@
 
 <div id="content">
     <div class="entry">
-        <h1 class="entry-title"><a href="/webpack-plugin" title="webpack 插件的基本原理">webpack 插件的基本原理</a></h1>
-        <p class="entry-date">2022-01-03</p>
-        <h2 id="webpack-插件的基本原理">webpack 插件的基本原理</h2>
+        <h1 class="entry-title"><a href="/antd-rollup" title="基于antd3的组件的rollup兼容性打包">基于antd3的组件的rollup兼容性打包</a></h1>
+        <p class="entry-date">2022-12-20</p>
+        <h3 id="打包过程中遇到的问题及解决方法">打包过程中遇到的问题及解决方法</h3>
 
-<h3 id="基本用法">基本用法</h3>
+<h4 id="打包完成后-启动项目引用组件报错-uncaught-typeerror-unknown-theme-type-undefined-name-undefined">打包完成后 启动项目引用组件报错 Uncaught TypeError: Unknown theme type: undefined, name: undefined</h4>
 
-<pre><code class="language-javascript">const HtmlWebpackPlugin = require("html-webpack-plugin");
+<p>antd 在初始化的时候加载了 ant-design/icons/lib/dist 文件</p>
+
+<pre><code class="language-javascript">import * as allIcons from "@ant-design/icons/lib/dist";
 </code></pre>
 
-<pre><code class="language-javascript">module.exports = {
+<p>rollup 打包出来的 bundle 对该文件的引用 是 allIcons 而不是 allIcons.default,所以只要把我们源文件的引入方式改为 esmodule 形式就行了，在 rollup 配置里配置别名属性</p>
+
+<pre><code class="language-javascript">    alias({
+      entries: [
+        {
+          find: "@ant-design/icons/lib/dist",
+          replacement: "@ant-design/icons/lib/index.es.js",
+        },
+      ],
+    }),
+</code></pre>
+
+<h4 id="inline-javascript-is-not-enabled-is-it-set-in-your-options">Inline JavaScript is not enabled. Is it set in your options？</h4>
+
+<p>打包 antd 组件报错，因为没有设置 less 中使用 js 表达式</p>
+
+<pre><code class="language-javascript">postcss({
+  extensions: [".less", ".css", ".scss"],
+  use: [["less", { javascriptEnabled: true }]],
+});
+</code></pre>
+
+<h4 id="打包-antd-报错-缺少-babel-loader">打包 antd 报错 缺少 babel-loader</h4>
+
+<pre><code class="language-javascript">   babel({
+      babelHelpers: "bundled",
+      // 因为要编译3版本的antd 所以要注释掉
+      // exclude: "node_modules/**", // 只编译我们的源代码
+    }),
+</code></pre>
+
+<p>引入 babel 插件时注意要在 commonjs 插件之前，需要先把新特性转成通用的才能使 commonjs 插件识别编译</p>
+
+<h4 id="打包后其他项目引用-react-报错-react-domdevelopmentjs11340-uncaught-invariant-violation-unable-to-find-reactcreateelement-type-is-invalid--expected-a-string-for-built-in-components-or-a-class">打包后其他项目引用 react 报错 react-dom.development.js:11340 Uncaught Invariant Violation: Unable to find React.createElement: type is invalid – expected a string (for built-in components) or a class</h4>
+
+<p>存在多个版本的 react 只要在打包组件时将 react 和 react-dom 包排除打包就可以了</p>
+
+<pre><code class="language-javascript">external: ["react", "react-dom"],
+</code></pre>
+
+<h4 id="打包后组件的-antd-没有样式">打包后组件的 antd 没有样式</h4>
+
+<p>因为在可编程组件打包时，当前组件没有引入全局的 antd 的样式，所以要使用按需加载的引入方式，才能有样式。找到一个 vite 的按需加载插件，使用后打包就没问题了</p>
+
+<pre><code class="language-javascript">    usePluginImport({
+      libraryName: "antd",
+      libraryDirectory: "lib",
+      style: true,
+    }),
+</code></pre>
+
+<h2 id="完整-rollup-配置">完整 rollup 配置</h2>
+
+<pre><code class="language-javascript">import { babel } from "@rollup/plugin-babel";
+import resolve from "@rollup/plugin-node-resolve";
+import replace from "@rollup/plugin-replace";
+import commonjs from "@rollup/plugin-commonjs";
+import postcss from "rollup-plugin-postcss";
+import json from "@rollup/plugin-json";
+import { terser } from "rollup-plugin-terser";
+import nodePolyfills from "rollup-plugin-polyfill-node";
+import alias from "@rollup/plugin-alias";
+import usePluginImport from "vite-plugin-importer";
+
+const env = process.env.NODE_ENV;
+
+export default {
+  input: "./src/sources/DeviceCard/components/DeviceResume.js",
+  output: {
+    file: "./dist/bundle.js",
+    format: "umd",
+    name: "bundle",
+  },
   plugins: [
-    new HtmlWebpackPlugin({
-      template: "./public/index.html", // 模版文件
+    json(),
+    alias({
+      entries: [
+        {
+          find: "@ant-design/icons/lib/dist",
+          replacement: "@ant-design/icons/lib/index.es.js",
+        },
+      ],
     }),
+    resolve({
+      preferBuiltins: true,
+      browser: true,
+      jsnext: true,
+      main: true,
+    }),
+    babel({
+      babelHelpers: "bundled", // 因为要编译3版本的antd 所以要注释掉 // exclude: "node_modules/**", // 只编译我们的源代码
+    }),
+    usePluginImport({
+      libraryName: "antd",
+      libraryDirectory: "lib",
+      style: true,
+    }),
+    commonjs(),
+    nodePolyfills(),
+    replace({
+      "process.env.NODE_ENV": JSON.stringify(env),
+    }),
+    postcss({
+      extensions: [".less", ".css", ".scss"],
+      use: [["less", { javascriptEnabled: true }]],
+    }),
+    terser(),
   ],
+  external: ["react", "react-dom"],
 };
-</code></pre>
-
-<blockquote>
-  <p>如上是一个 webpack 插件的基本用法，那么他的原理是什么呢</p>
-</blockquote>
-
-<h3 id="基本原理">基本原理</h3>
-
-<h4 id="1-调用-webpack-函数接收-config-配置信息实例化-compiler初始化内置插件调用所有内置插件的apply">1. 调用 webpack 函数，接收 config 配置信息，实例化 compiler，初始化内置插件（调用所有内置插件的.apply）</h4>
-
-<h4 id="2-调用-compilerrun-进入编译阶段">2. 调用 compiler.run 进入编译阶段</h4>
-
-<ul>
-  <li>1.每一次新的编译都会实例化一个 compilation 对象，记录本次编译的基本信息</li>
-  <li>2.进入 make 阶段，即触发 compilation.hooks.make 钩子，从 entry 为入口
-    <ul>
-      <li>1.执行对应的 loader 对模块进行预处理转为标准的 js 模块</li>
-      <li>2.调用三方插件 acorn 对标准 JS 模块进行分析，递归每个依赖项，生成语法树</li>
-    </ul>
-  </li>
-  <li>3.最后调用 compilation.seal render 模块，整合各个依赖项，最后输出一个或多个 chunk</li>
-</ul>
-
-<h3 id="webpack-插件规范">webpack 插件规范</h3>
-
-<ul>
-  <li>一个 JavaScript 命名函数或 JavaScript 类。</li>
-  <li>在插件函数的 prototype 上定义一个 apply 方法。</li>
-  <li>指定一个绑定到 webpack 自身的事件钩子。</li>
-  <li>处理 webpack 内部实例的特定数据。</li>
-  <li>功能完成后调用 webpack 提供的回调。</li>
-</ul>
-
-<blockquote>
-  <p>基本插件架构及使用方法 ↓</p>
-</blockquote>
-
-<pre><code class="language-javascript">class HelloWorldPlugin {
-  apply(compiler) {
-    compiler.hooks.done.tap(
-      "Hello World Plugin",
-      (stats /* 绑定 done 钩子后，stats 会作为参数传入。 */) =&gt; {
-        console.log("Hello World!");
-      }
-    );
-  }
-}
-
-module.exports = HelloWorldPlugin;
-</code></pre>
-
-<pre><code class="language-javascript">// webpack.config.js
-var HelloWorldPlugin = require("hello-world");
-
-module.exports = {
-  // ... 这里是其他配置 ...
-  plugins: [new HelloWorldPlugin({ options: true })],
-};
-</code></pre>
-
-<pre><code class="language-javascript">/*
- * @Descripttion: 插件测试
- * @Author: xietianfeng
- * @Date: 2022-01-04 14:35:05
- * @LastEditors: xietianfeng
- * @LastEditTime: 2022-01-04 16:08:40
- */
-
-// 插件输出类
-class RemoveCommentPlugin {
-  constructor(opts) {
-    this.opts = opts;
-    this.externalModules = {};
-  }
-  apply(compiler) {
-    // 去除注释正则
-    const reg =
-      /("([^\\\"]*(\\.)?)*")|('([^\\\']*(\\.)?)*')|(\/{2,}.*?(\r|\n))|(\/\*(\n|.)*?\*\/)|(\/\*\*\*\*\*\*\/)/g;
-
-    // 注册自定义插件钩子到生成资源到 output 目录之前，拿到compilation对象（编译好的stream）
-    compiler.hooks.emit.tap("RemoveComment", (compilation) =&gt; {
-      // 遍历构建产物
-      Object.keys(compilation.assets).forEach((item) =&gt; {
-        // .source()是获取构建产物的文本
-        // .assets中包含构建产物的文件名
-        let content = compilation.assets[item].source();
-        content = content.replace(reg, function (word) {
-          // 去除注释后的文本
-          return /^\/{2,}/.test(word) ||
-            /^\/\*!/.test(word) ||
-            /^\/\*{3,}\//.test(word)
-            ? ""
-            : word;
-        });
-        // console.info(content);
-        // 更新构建产物对象
-        compilation.assets[item] = {
-          source: () =&gt; content,
-          size: () =&gt; content.length,
-        };
-      });
-    });
-  }
-}
-
-module.exports = RemoveCommentPlugin;
 </code></pre>
 
         <div id="disqus_container">

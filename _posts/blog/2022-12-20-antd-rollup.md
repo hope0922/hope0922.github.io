@@ -1,0 +1,134 @@
+---
+layout: post
+title: 基于antd3的组件的rollup兼容性打包
+category: blog
+description: 将antd3的组件打包并在antd4的环境使用
+---
+
+### 打包过程中遇到的问题及解决方法
+
+#### 打包完成后 启动项目引用组件报错 Uncaught TypeError: Unknown theme type: undefined, name: undefined
+
+antd 在初始化的时候加载了 ant-design/icons/lib/dist 文件
+
+```javascript
+import * as allIcons from "@ant-design/icons/lib/dist";
+```
+
+rollup 打包出来的 bundle 对该文件的引用 是 allIcons 而不是 allIcons.default,所以只要把我们源文件的引入方式改为 esmodule 形式就行了，在 rollup 配置里配置别名属性
+
+```javascript
+    alias({
+      entries: [
+        {
+          find: "@ant-design/icons/lib/dist",
+          replacement: "@ant-design/icons/lib/index.es.js",
+        },
+      ],
+    }),
+```
+
+#### Inline JavaScript is not enabled. Is it set in your options？
+
+打包 antd 组件报错，因为没有设置 less 中使用 js 表达式
+
+```javascript
+postcss({
+  extensions: [".less", ".css", ".scss"],
+  use: [["less", { javascriptEnabled: true }]],
+});
+```
+
+#### 打包 antd 报错 缺少 babel-loader
+
+```javascript
+   babel({
+      babelHelpers: "bundled",
+      // 因为要编译3版本的antd 所以要注释掉
+      // exclude: "node_modules/**", // 只编译我们的源代码
+    }),
+```
+
+引入 babel 插件时注意要在 commonjs 插件之前，需要先把新特性转成通用的才能使 commonjs 插件识别编译
+
+#### 打包后其他项目引用 react 报错 react-dom.development.js:11340 Uncaught Invariant Violation: Unable to find React.createElement: type is invalid -- expected a string (for built-in components) or a class
+
+存在多个版本的 react 只要在打包组件时将 react 和 react-dom 包排除打包就可以了
+
+```javascript
+external: ["react", "react-dom"],
+```
+
+#### 打包后组件的 antd 没有样式
+
+因为在可编程组件打包时，当前组件没有引入全局的 antd 的样式，所以要使用按需加载的引入方式，才能有样式。找到一个 vite 的按需加载插件，使用后打包就没问题了
+
+```javascript
+    usePluginImport({
+      libraryName: "antd",
+      libraryDirectory: "lib",
+      style: true,
+    }),
+```
+
+## 完整 rollup 配置
+
+```javascript
+import { babel } from "@rollup/plugin-babel";
+import resolve from "@rollup/plugin-node-resolve";
+import replace from "@rollup/plugin-replace";
+import commonjs from "@rollup/plugin-commonjs";
+import postcss from "rollup-plugin-postcss";
+import json from "@rollup/plugin-json";
+import { terser } from "rollup-plugin-terser";
+import nodePolyfills from "rollup-plugin-polyfill-node";
+import alias from "@rollup/plugin-alias";
+import usePluginImport from "vite-plugin-importer";
+
+const env = process.env.NODE_ENV;
+
+export default {
+  input: "./src/sources/DeviceCard/components/DeviceResume.js",
+  output: {
+    file: "./dist/bundle.js",
+    format: "umd",
+    name: "bundle",
+  },
+  plugins: [
+    json(),
+    alias({
+      entries: [
+        {
+          find: "@ant-design/icons/lib/dist",
+          replacement: "@ant-design/icons/lib/index.es.js",
+        },
+      ],
+    }),
+    resolve({
+      preferBuiltins: true,
+      browser: true,
+      jsnext: true,
+      main: true,
+    }),
+    babel({
+      babelHelpers: "bundled", // 因为要编译3版本的antd 所以要注释掉 // exclude: "node_modules/**", // 只编译我们的源代码
+    }),
+    usePluginImport({
+      libraryName: "antd",
+      libraryDirectory: "lib",
+      style: true,
+    }),
+    commonjs(),
+    nodePolyfills(),
+    replace({
+      "process.env.NODE_ENV": JSON.stringify(env),
+    }),
+    postcss({
+      extensions: [".less", ".css", ".scss"],
+      use: [["less", { javascriptEnabled: true }]],
+    }),
+    terser(),
+  ],
+  external: ["react", "react-dom"],
+};
+```

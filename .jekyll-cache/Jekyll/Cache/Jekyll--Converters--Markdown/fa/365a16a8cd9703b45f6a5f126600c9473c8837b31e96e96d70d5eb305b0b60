@@ -1,4 +1,4 @@
-I"�<h3 id="webpack5-模块联邦使用方式">webpack5 模块联邦使用方式</h3>
+I"�<h3 id="webpack5-模块联邦使用方式">webpack5 模块联邦使用方式</h3>
 
 <blockquote>
   <p>项目一</p>
@@ -36,6 +36,10 @@
 </code></pre>
 
 <h4 id="这里要注意需要用到动态导入入口文件的方法因为-webpack-在静态编译阶段时由于引用了远程的异步包会存在还没加载远程包无法引用到对应包的情况">这里要注意需要用到动态导入入口文件的方法，因为 webpack 在静态编译阶段时，由于引用了远程的异步包，会存在还没加载远程包无法引用到对应包的情况</h4>
+
+<blockquote>
+  <p>代码演示</p>
+</blockquote>
 
 <pre><code class="language-javascript">import("./test"); //首页入口文件用动态import方式方便webpack编译
 </code></pre>
